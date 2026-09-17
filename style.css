@@ -105,8 +105,8 @@ body.card-closed {
   inset: 0;
   background-size: cover;
   background-position: center;
-  will-change: opacity, transform;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Real Kerala Mosque Exterior */
@@ -136,7 +136,8 @@ body.card-closed {
   background: radial-gradient(circle at 50% 15%, rgba(255, 235, 140, 0.45) 0%, transparent 65%);
   opacity: 0.3;
   z-index: 2;
-  transition: opacity 0.6s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .cinematic-vignette {
@@ -656,7 +657,6 @@ body.card-closed {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  will-change: transform;
   pointer-events: none;
 }
 
@@ -672,16 +672,19 @@ body.card-closed {
   align-items: center;
   justify-content: center;
   padding: 0;
-  will-change: transform, opacity;
-  transform-style: preserve-3d;
   pointer-events: none;
   opacity: 0;
+  visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  contain: layout style;
 }
 
 .chamber-card {
   width: 100%;
   max-height: 82vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: var(--gold-primary) rgba(212, 175, 55, 0.1);
   background: var(--bg-card);
@@ -695,6 +698,8 @@ body.card-closed {
   text-align: center;
   position: relative;
   transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .chamber-card::-webkit-scrollbar {
@@ -727,9 +732,10 @@ body.card-closed {
   display: flex;
   align-items: center;
   justify-content: center;
-  will-change: transform, opacity;
-  transform-style: preserve-3d;
   opacity: 0;
+  visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .arch-frame {
@@ -1620,229 +1626,227 @@ body.card-closed {
 }
 
 /* --------------------------------------------------------
-   STAGE 05: SACRED PROGRAMME & REAL KERALA MOSQUE
+   STAGE 05: SACRED QURAN & PROPHETIC SUNNAH OF NIKKAH
    -------------------------------------------------------- */
-.programme-wrap {
-  width: 100%;
-  margin-bottom: 3.5rem;
+.quran-hadith-stage-card {
+  max-width: 860px;
 }
 
-.section-tag-gold {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: var(--gold-deep);
-}
-
-.section-heading-gold {
-  font-family: var(--font-cinzel);
-  font-size: 1.9rem;
-  font-weight: 800;
-  color: var(--text-dark);
+.sacred-scripture-header {
   margin-bottom: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.programme-grid-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-}
-
-.p-card {
-  background: #ffffff;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 16px;
-  padding: 1.5rem 1.2rem;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-  text-align: left;
-}
-
-.p-card.main-ceremony-card {
-  border-color: var(--gold-primary);
-  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
-}
-
-.p-time {
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--gold-deep);
-  margin-bottom: 0.4rem;
-  display: block;
-}
-
-.p-time.gold-badge {
+.sacred-quran-icon-pod {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
   background: var(--gold-gradient);
   color: #fff;
-  padding: 0.2rem 0.6rem;
-  border-radius: 10px;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  margin-bottom: 0.8rem;
 }
 
-.p-title {
-  font-family: var(--font-cinzel);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text-dark);
-  margin-bottom: 0.3rem;
-}
-
-.p-detail {
-  font-size: 0.82rem;
+.section-sub-gold {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
   color: var(--text-muted);
+  font-style: italic;
+  max-width: 580px;
+  margin-top: -0.9rem;
   line-height: 1.5;
 }
 
-/* Exact Venue Container with Authentic Kerala Mosque Photo */
-.exact-venue-container {
+.quran-hadith-deck {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  width: 100%;
+  margin-bottom: 1.8rem;
+}
+
+.scripture-card {
   background: #ffffff;
-  border: 1.5px solid var(--gold-primary);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-  text-align: left;
-  width: 100%;
-}
-
-.venue-media-wrapper {
-  position: relative;
-  min-height: 320px;
-}
-
-.venue-real-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.venue-photo-badge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid var(--gold-primary);
-  color: var(--gold-deep);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  padding: 0.35rem 0.9rem;
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
   border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.venue-text-wrapper {
-  padding: 2.4rem 2rem;
+  padding: 1.3rem 1.5rem;
+  box-shadow: 0 6px 20px rgba(180, 140, 60, 0.08);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.venue-subhead {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: var(--gold-deep);
+.scripture-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 10px 28px rgba(212, 175, 55, 0.22);
 }
 
-.venue-title-name {
-  font-family: var(--font-cinzel);
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: var(--text-dark);
-  margin: 0.2rem 0 0.5rem;
+.featured-quran-card {
+  grid-column: span 2;
+  background: linear-gradient(180deg, #ffffff 0%, #fffcf5 100%);
+  border: 2px solid var(--gold-primary);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.18);
+  padding: 1.6rem 2rem;
 }
 
-.venue-address-line {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--gold-deep);
-  margin-bottom: 1rem;
-  display: flex;
+.card-scripture-badge {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.25rem 0.85rem;
+  border-radius: 20px;
+  margin-bottom: 0.9rem;
 }
 
-.venue-desc-text {
-  font-size: 0.9rem;
+.quran-badge {
+  background: rgba(39, 174, 96, 0.12);
+  color: #1e824c;
+  border: 1px solid rgba(39, 174, 96, 0.3);
+}
+
+.hadith-badge {
+  background: rgba(212, 175, 55, 0.14);
+  color: var(--gold-deep);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.arabic-quran-verse {
+  font-family: var(--font-amiri);
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--text-dark);
+  text-shadow: 0 1px 2px rgba(212, 175, 55, 0.25);
+  margin-bottom: 0.7rem;
+  direction: rtl;
+}
+
+.arabic-quran-verse-sm {
+  font-family: var(--font-amiri);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.55;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  direction: rtl;
+}
+
+.arabic-hadith-quote {
+  font-family: var(--font-amiri);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.55;
+  color: var(--rose-accent);
+  margin-bottom: 0.5rem;
+  direction: rtl;
+}
+
+.scripture-translation {
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  font-style: italic;
   color: var(--text-body);
   line-height: 1.6;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.5rem;
 }
 
-.venue-conveniences {
+.scripture-citation {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--gold-deep);
+  text-transform: uppercase;
+}
+
+.full-span-hadith {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #ffffff 0%, #fff9f0 100%);
+}
+
+/* Venue location bar at bottom of stage 5 */
+.quran-stage-venue-bar {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
+  border-radius: 20px;
+  padding: 1rem 1.6rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.6rem;
-  font-size: 0.85rem;
-  font-weight: 600;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  box-shadow: 0 4px 16px rgba(180, 140, 60, 0.1);
+}
+
+.venue-bar-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
   color: var(--text-dark);
 }
 
-.venue-conveniences span i {
+.venue-bar-info i {
+  font-size: 1.25rem;
   color: var(--gold-primary);
-  margin-right: 6px;
 }
 
-.venue-btn-group {
+.venue-bar-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
-.btn-google-maps-direct {
-  background: var(--gold-gradient);
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.88rem;
-  padding: 0.85rem 1.6rem;
-  border-radius: 30px;
-  display: flex;
+.venue-bar-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  box-shadow: var(--shadow-gold);
-  transition: transform 0.2s ease;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.55rem 1.15rem;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-.btn-google-maps-direct:hover {
+.venue-bar-btn.maps-btn {
+  background: var(--gold-gradient);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+}
+
+.venue-bar-btn.maps-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.5);
 }
 
-.btn-copy-address {
+.venue-bar-btn.copy-btn {
   background: #ffffff;
   border: 1.5px solid var(--gold-primary);
   color: var(--gold-deep);
-  font-weight: 700;
-  font-size: 0.88rem;
-  padding: 0.85rem 1.4rem;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease;
 }
 
-.btn-copy-address:hover {
+.venue-bar-btn.copy-btn:hover {
   background: var(--gold-gradient);
-  color: #fff;
-}
-
-.copied-toast-pill {
-  display: none;
-  margin-top: 0.8rem;
-  padding: 0.4rem 1rem;
-  background: #27ae60;
-  color: #fff;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  color: #ffffff;
 }
 
 /* --------------------------------------------------------
@@ -2398,67 +2402,77 @@ body.card-closed {
     margin-bottom: 0.4rem;
   }
 
-  .programme-grid-row {
+  /* Stage 5: Quran & Hadith on Mobile */
+  .quran-hadith-deck {
     grid-template-columns: 1fr;
-    gap: 0.35rem;
-    margin-bottom: 0.5rem;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
   }
 
-  .p-card {
-    padding: 0.45rem 0.75rem;
-    border-radius: 10px;
+  .featured-quran-card,
+  .full-span-hadith {
+    grid-column: span 1;
+    padding: 0.85rem 0.9rem;
   }
 
-  .p-time {
+  .scripture-card {
+    padding: 0.75rem 0.85rem;
+    border-radius: 14px;
+  }
+
+  .card-scripture-badge {
+    font-size: 0.62rem;
+    padding: 0.2rem 0.65rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .arabic-quran-verse {
+    font-size: 1.3rem;
+    line-height: 1.45;
+    margin-bottom: 0.35rem;
+  }
+
+  .arabic-quran-verse-sm,
+  .arabic-hadith-quote {
+    font-size: 1.15rem;
+    line-height: 1.4;
+    margin-bottom: 0.35rem;
+  }
+
+  .scripture-translation {
+    font-size: 0.74rem;
+    line-height: 1.4;
+    margin-bottom: 0.35rem;
+  }
+
+  .scripture-citation {
     font-size: 0.65rem;
   }
 
-  .p-title {
-    font-size: 0.82rem;
+  .quran-stage-venue-bar {
+    padding: 0.65rem 0.85rem;
+    border-radius: 14px;
+    gap: 0.5rem;
+    flex-direction: column;
+    text-align: center;
   }
 
-  .p-detail {
-    font-size: 0.7rem;
+  .venue-bar-info {
+    font-size: 0.75rem;
+    justify-content: center;
   }
 
-  .venue-media-wrapper {
-    min-height: 110px;
-    height: 110px;
-    border-radius: 10px;
-    margin-top: 0.4rem;
-  }
-
-  .venue-real-photo {
-    height: 110px;
-  }
-
-  .venue-title-name {
-    font-size: 1.05rem;
-    margin-top: 0.4rem;
-  }
-
-  .venue-address-line {
-    font-size: 0.72rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .venue-desc-text {
-    display: none; /* Hide redundant long text on mobile */
-  }
-
-  .venue-btn-group {
-    flex-direction: row;
+  .venue-bar-actions {
+    justify-content: center;
     width: 100%;
     gap: 6px;
   }
 
-  .btn-google-maps-direct, .btn-copy-address {
-    width: 100%;
+  .venue-bar-btn {
     flex: 1;
     justify-content: center;
     font-size: 0.72rem;
-    padding: 0.5rem 0.6rem;
-    gap: 4px;
+    padding: 0.45rem 0.7rem;
   }
 
   /* Stage 6: Paradise */
@@ -2592,25 +2606,9 @@ body.card-closed {
     font-size: 0.65rem;
   }
 
-  /* Arch Portals on Mobile */
-  .arch-frame {
-    width: 96vw;
-    height: 84vh;
-    border-width: 2px;
-  }
-
-  .arch-lantern-fixture {
-    width: 28px;
-    height: 28px;
-    font-size: 0.75rem;
-  }
-
-  .arch-lantern-fixture.lantern-left {
-    left: -8px;
-  }
-
-  .arch-lantern-fixture.lantern-right {
-    right: -8px;
+  /* Arch Portals on Mobile - Hidden to save GPU VRAM & prevent white tile crashes */
+  .arch-portal {
+    display: none !important;
   }
 
   /* Floating Quick Action Buttons on Mobile */

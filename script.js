@@ -445,9 +445,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillStyle = this.color;
         ctx.beginPath();
         const s = this.size * scale;
-        ctx.moveTo(0, 0);
-        ctx.bezierCurveTo(-s * 0.7, -s * 0.7, -s * 0.9, s * 0.9, 0, s * 1.2);
-        ctx.bezierCurveTo(s * 0.9, s * 0.9, s * 0.7, -s * 0.7, 0, 0);
+        if (window.innerWidth < 768) {
+          ctx.ellipse(0, 0, s * 0.5, s * 0.9, 0, 0, Math.PI * 2);
+        } else {
+          ctx.moveTo(0, 0);
+          ctx.bezierCurveTo(-s * 0.7, -s * 0.7, -s * 0.9, s * 0.9, 0, s * 1.2);
+          ctx.bezierCurveTo(s * 0.9, s * 0.9, s * 0.7, -s * 0.7, 0, 0);
+        }
         ctx.fill();
       } else {
         ctx.fillStyle = this.color;
@@ -460,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  const particleCount = window.innerWidth < 640 ? 40 : 80;
+  const particleCount = window.innerWidth < 768 ? 20 : 60;
   for (let i = 0; i < particleCount; i++) {
     particles.push(new FlightParticle());
   }
@@ -492,33 +496,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let scrollVelocity = 0;
   let activeChamberIndex = 0;
 
+  // Native hardware-accelerated scroll listener
   window.addEventListener('scroll', () => {
     targetScroll = window.scrollY;
-  }, { passive: true });
-
-  // Mobile Touch Swipe Enhancement for Buttery Response
-  let touchLastY = 0;
-  let isTouchSwiping = false;
-
-  window.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 1) {
-      touchLastY = e.touches[0].clientY;
-      isTouchSwiping = true;
-    }
-  }, { passive: true });
-
-  window.addEventListener('touchmove', (e) => {
-    if (!isTouchSwiping || !e.touches[0] || document.body.classList.contains('card-closed')) return;
-    const currentY = e.touches[0].clientY;
-    const deltaY = touchLastY - currentY;
-    touchLastY = currentY;
-
-    window.scrollBy({ top: deltaY * 1.3, behavior: 'instant' });
-    targetScroll = window.scrollY;
-  }, { passive: true });
-
-  window.addEventListener('touchend', () => {
-    isTouchSwiping = false;
   }, { passive: true });
 
   function updateChamberNavigator(index) {
@@ -555,13 +535,17 @@ document.addEventListener('DOMContentLoaded', () => {
     nextBtn.addEventListener('click', () => goToChamber(activeChamberIndex + 1));
   }
 
-  // Unified 60/120fps Animation Loop
+  // Unified 60/120fps High-Performance Animation Loop
   function mainEngineLoop() {
     // 1. Smooth Camera Damping (Faster lerp on mobile for immediate tactile feel)
     const isMobile = window.innerWidth < 768;
-    const lerpFactor = isMobile ? 0.16 : 0.088;
+    const lerpFactor = isMobile ? 0.18 : 0.088;
     const scrollDiff = targetScroll - currentScroll;
-    currentScroll += scrollDiff * lerpFactor;
+    if (Math.abs(scrollDiff) < 0.25) {
+      currentScroll = targetScroll;
+    } else {
+      currentScroll += scrollDiff * lerpFactor;
+    }
     scrollVelocity = scrollDiff;
 
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -576,51 +560,61 @@ document.addEventListener('DOMContentLoaded', () => {
       particles[i].draw();
     }
 
-    // 3. 3D Architectural Portals (Arches that zoom past you)
-    portals.forEach((arch, k) => {
-      const archZ = -(k * Z_SPACING + Z_SPACING * 0.5);
-      const relArchZ = archZ + cameraZ;
+    // 3. 3D Architectural Portals (Desktop only to prevent mobile GPU VRAM exhaustion)
+    if (!isMobile) {
+      portals.forEach((arch, k) => {
+        const archZ = -(k * Z_SPACING + Z_SPACING * 0.5);
+        const relArchZ = archZ + cameraZ;
 
-      if (relArchZ < -3000 || relArchZ > 600) {
-        arch.style.display = 'none';
-      } else {
-        arch.style.display = 'flex';
-        let archOpacity = 1;
-        let archScale = 1;
-
-        if (relArchZ < -1400) {
-          archOpacity = Math.max(0, (relArchZ + 3000) / 1600);
-          archScale = 0.8 + (relArchZ + 3000) / 3000 * 0.2;
-        } else if (relArchZ <= 50) {
-          archOpacity = 1;
-          archScale = 1;
+        if (relArchZ < -2800 || relArchZ > 600) {
+          if (arch.style.visibility !== 'hidden') {
+            arch.style.visibility = 'hidden';
+          }
         } else {
-          // Zooms past the user into the screen edges
-          archOpacity = Math.max(0, 1 - (relArchZ - 50) / 500);
-          archScale = 1 + (relArchZ - 50) * 0.0022;
+          if (arch.style.visibility !== 'visible') {
+            arch.style.visibility = 'visible';
+          }
+          let archOpacity = 1;
+          let archScale = 1;
+
+          if (relArchZ < -1400) {
+            archOpacity = Math.max(0, (relArchZ + 2800) / 1400);
+            archScale = 0.8 + (relArchZ + 2800) / 2800 * 0.2;
+          } else if (relArchZ <= 50) {
+            archOpacity = 1;
+            archScale = 1;
+          } else {
+            // Zooms past the user into the screen edges
+            archOpacity = Math.max(0, 1 - (relArchZ - 50) / 500);
+            archScale = 1 + (relArchZ - 50) * 0.0022;
+          }
+
+          arch.style.transform = `translate3d(-50%, -50%, ${relArchZ.toFixed(1)}px) scale(${archScale.toFixed(3)})`;
+          arch.style.opacity = archOpacity.toFixed(3);
         }
+      });
+    }
 
-        arch.style.transform = `translate3d(-50%, -50%, ${relArchZ.toFixed(1)}px) scale(${archScale.toFixed(3)})`;
-        arch.style.opacity = archOpacity.toFixed(3);
-      }
-    });
-
-    // 4. 3D Chambers Movement (Flying forward through each chamber)
+    // 4. 3D Chambers Movement (Flying forward through each chamber using visibility)
     chambers.forEach((ch, idx) => {
       const chZ = -idx * Z_SPACING;
       const relZ = chZ + cameraZ;
 
-      if (relZ < -3000 || relZ > 550) {
-        ch.style.display = 'none';
-        ch.style.pointerEvents = 'none';
+      if (relZ < -2600 || relZ > 550) {
+        if (ch.style.visibility !== 'hidden') {
+          ch.style.visibility = 'hidden';
+          ch.style.pointerEvents = 'none';
+        }
       } else {
-        ch.style.display = 'flex';
+        if (ch.style.visibility !== 'visible') {
+          ch.style.visibility = 'visible';
+        }
         let chOpacity = 1;
         let chScale = 1;
 
         if (relZ < -1300) {
-          chOpacity = Math.max(0, (relZ + 3000) / 1700);
-          chScale = 0.85 + (relZ + 3000) / 3000 * 0.15;
+          chOpacity = Math.max(0, (relZ + 2600) / 1300);
+          chScale = 0.88 + (relZ + 2600) / 2600 * 0.12;
         } else if (relZ <= 40) {
           chOpacity = 1;
           chScale = 1;
@@ -629,7 +623,7 @@ document.addEventListener('DOMContentLoaded', () => {
           chScale = 1 + (relZ - 40) * 0.0018;
         }
 
-        if (Math.abs(relZ) < 260 && chOpacity > 0.85) {
+        if (Math.abs(relZ) < 320 && chOpacity > 0.8) {
           ch.style.pointerEvents = 'auto';
         } else {
           ch.style.pointerEvents = 'none';
