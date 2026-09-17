@@ -633,7 +633,7 @@ body.card-closed {
 .scroll-track {
   position: relative;
   width: 100%;
-  height: 6500px;
+  height: 8000px;
   pointer-events: none;
   z-index: -1;
 }
@@ -872,84 +872,151 @@ body.card-closed {
 }
 
 /* ========================================================
-   6. SEPARATE DEVELOPER SIGNATURE (VERY BOTTOM OF SCREEN)
+   STAGE 07: DEVELOPER & ARCHITECT SHOWCASE (VERY END)
    ======================================================== */
-.site-developer-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 95;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(212, 175, 55, 0.28);
-  padding: 6px 16px;
+.developer-showcase-card {
+  background: var(--bg-card);
+  border: var(--gold-card-border);
+  border-radius: 28px;
+  padding: 2.4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 620px;
+  width: 100%;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.dev-card-crest {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 24px rgba(180, 140, 60, 0.35);
+  margin-bottom: 1rem;
 }
 
-.dev-footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  font-size: 0.74rem;
-  color: var(--text-muted);
+.dev-crest-monogram {
+  font-family: var(--font-cinzel-dec);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 1px;
 }
 
-.dev-credit-tag {
-  font-weight: 500;
-  letter-spacing: 0.5px;
+.dev-crest-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--gold-primary);
+  animation: rotateRing 16s linear infinite;
 }
 
-.dev-name-title {
-  font-family: var(--font-cinzel);
-  font-weight: 800;
-  color: var(--gold-deep);
-  letter-spacing: 0.5px;
-}
-
-.dev-tag-sep {
-  color: var(--gold-bright);
-}
-
-.dev-role-label {
+.dev-card-tag {
   font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-body);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold-deep);
+  background: rgba(212, 175, 55, 0.12);
+  padding: 0.25rem 0.9rem;
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
 }
 
-.dev-social-tray {
+.dev-card-headline {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.dev-card-author {
+  font-family: var(--font-cinzel);
+  font-size: 1.95rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: 1px;
+  margin-bottom: 0.2rem;
+}
+
+.dev-card-profession {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--gold-deep);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.dev-card-note {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-body);
+  max-width: 500px;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.dev-links-container {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-left: 6px;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 1.4rem;
 }
 
-.dev-link-badge {
+.dev-action-pill {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--text-body);
-  text-decoration: none;
+  gap: 8px;
   background: #ffffff;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 12px;
-  padding: 2px 8px;
+  border: 1.5px solid var(--gold-primary);
+  border-radius: 25px;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(160, 120, 50, 0.12);
+  transition: all 0.25s ease;
+}
+
+.dev-action-pill:hover {
+  background: var(--gold-gradient);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.4);
+}
+
+.btn-replay-journey {
+  background: transparent;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all 0.2s ease;
 }
 
-.dev-link-badge:hover {
-  background: var(--gold-gradient);
-  color: #fff;
-  border-color: transparent;
-  transform: translateY(-1px);
+.btn-replay-journey:hover {
+  background: #ffffff;
+  color: var(--gold-deep);
+  border-color: var(--gold-primary);
 }
 
 /* --------------------------------------------------------
@@ -1263,32 +1330,33 @@ body.card-closed {
 }
 
 /* --------------------------------------------------------
-   STAGE 03: BRIDE & GROOM CORRIDOR
+   STAGE 03: BRIDE & GROOM CORRIDOR (VERTICAL STACK - BOTH VISIBLE)
    -------------------------------------------------------- */
 .couple-deck-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.8rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
   width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
 }
 
 .sovereign-card {
-  flex: 1;
-  min-width: 300px;
-  max-width: 400px;
+  width: 100%;
   background: var(--bg-card);
   border: var(--gold-card-border);
-  border-radius: 24px;
-  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  padding: 1.1rem 1.6rem;
   box-shadow: var(--shadow-card);
   text-align: center;
   transition: transform 0.25s ease;
+  position: relative;
 }
 
 .sovereign-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   border-color: var(--gold-primary);
 }
 
@@ -1296,15 +1364,15 @@ body.card-closed {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .card-role-tag {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  padding: 0.3rem 1rem;
+  letter-spacing: 1.5px;
+  padding: 0.25rem 0.8rem;
   border-radius: 20px;
 }
 
@@ -1319,13 +1387,13 @@ body.card-closed {
 }
 
 .card-halo-icon {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
 }
 
 .card-halo-icon.bride-icon {
@@ -1340,72 +1408,83 @@ body.card-closed {
 
 .person-display-name {
   font-family: var(--font-cinzel-dec);
-  font-size: 1.85rem;
+  font-size: 1.55rem;
   font-weight: 800;
   color: var(--text-dark);
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.35rem;
 }
 
 .lineage-card {
   background: #ffffff;
   border: 1px solid rgba(212, 175, 55, 0.25);
-  border-radius: 14px;
-  padding: 1rem;
-  margin-bottom: 1.2rem;
+  border-radius: 10px;
+  padding: 0.35rem 0.8rem;
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .lineage-subtitle {
-  display: block;
+  display: inline;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   color: var(--gold-deep);
-  margin-bottom: 0.3rem;
+  margin-right: 4px;
 }
 
 .lineage-title {
+  display: inline;
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-dark);
 }
 
 .lineage-amp {
+  display: inline;
   font-family: var(--font-cursive);
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: var(--gold-primary);
   line-height: 1;
+  margin: 0 2px;
 }
 
 .person-heart-quote {
   font-family: var(--font-serif);
-  font-size: 0.92rem;
+  font-size: 0.82rem;
   font-style: italic;
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.4;
+  margin: 0;
 }
 
 .central-nikkah-emblem {
   position: relative;
-  width: 76px;
-  height: 76px;
+  width: 42px;
+  height: 42px;
+  margin: -6px auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 5;
 }
 
 .emblem-orbital-ring {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px dashed var(--gold-primary);
+  border: 1.5px dashed var(--gold-primary);
   animation: rotateRing 14s linear infinite;
 }
 
 .emblem-core {
-  width: 62px;
-  height: 62px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: var(--gold-gradient);
   color: #fff;
@@ -1413,14 +1492,18 @@ body.card-closed {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
-  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4);
+  font-size: 0.75rem;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.emblem-core i {
+  font-size: 0.72rem;
 }
 
 .emblem-core span {
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-size: 0.55rem;
+  font-family: var(--font-amiri);
+  line-height: 1;
 }
 
 /* --------------------------------------------------------
@@ -1917,7 +2000,7 @@ body.card-closed {
 }
 
 /* ========================================================
-   RESPONSIVE
+   RESPONSIVE & MOBILE OPTIMIZATIONS
    ======================================================== */
 @media (max-width: 900px) {
   .flight-hud {
@@ -1930,54 +2013,616 @@ body.card-closed {
     grid-template-columns: 1fr;
   }
   .venue-media-wrapper {
-    min-height: 220px;
+    min-height: 200px;
   }
   .hero-names-group {
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.3rem;
   }
   .hero-bride-name, .hero-groom-name {
     font-size: 2.2rem;
   }
+  .arch-frame {
+    width: 95vw;
+    height: 85vh;
+  }
 }
 
 @media (max-width: 640px) {
+  /* Ultra-Compact Royal HUD for Mobile */
+  .flight-hud {
+    padding: 0.35rem 0.8rem;
+    height: 46px;
+  }
+
+  .hud-brand {
+    gap: 6px;
+  }
+
+  .hud-crest-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .hud-monogram {
+    font-size: 0.95rem;
+  }
+
+  .hud-stage-pill {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.68rem;
+    gap: 4px;
+  }
+
+  .hud-stage-text {
+    display: none; /* Hide verbose title to prevent horizontal cramping */
+  }
+
+  .hud-audio-8d {
+    padding: 3px 8px;
+    gap: 6px;
+  }
+
+  .audio-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
+  }
+
+  .audio-caption-wrap {
+    display: none; /* Hide label text on mobile, keep clean EQ bars */
+  }
+
+  .hud-audio-8d .audio-equalizer {
+    display: flex;
+  }
+
+  /* 3D Wedding Card on Mobile */
   .wedding-card-3d {
-    width: 290px;
-    height: 400px;
+    width: min(315px, 86vw);
+    height: min(430px, 65vh);
+    margin-bottom: 1.2rem;
   }
+
   .card-wax-seal {
-    width: 68px;
-    height: 68px;
+    width: 62px;
+    height: 62px;
   }
+
+  .arabic-inside-bismillah {
+    font-size: 1.4rem;
+  }
+
+  .inside-monogram {
+    font-size: 1.2rem;
+  }
+
+  .inside-date {
+    font-size: 0.92rem;
+    letter-spacing: 2px;
+  }
+
+  .inside-parents-note {
+    font-size: 0.76rem;
+    max-width: 230px;
+    line-height: 1.35;
+  }
+
+  .btn-enter-journey {
+    padding: 6px 16px;
+    font-size: 0.75rem;
+  }
+
+  .btn-open-card {
+    padding: 0.75rem 1.6rem;
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+  }
+
+  /* 3D Tunnel Chamber on Mobile */
+  .tunnel-viewport {
+    perspective: 880px;
+  }
+
+  .tunnel-chamber {
+    width: 92%;
+    max-height: 82vh;
+  }
+
+  .chamber-card {
+    padding: 1.25rem 1rem;
+    max-height: 80vh;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(160, 120, 50, 0.12);
+  }
+
+  /* Stage 1: Mosque Entrance */
+  .royal-crest-pod {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 0.4rem;
+  }
+
+  .arabic-bismillah-glory {
+    font-size: 1.65rem;
+    line-height: 1.2;
+    margin-bottom: 0.15rem;
+  }
+
+  .bismillah-translation-gold {
+    font-size: 0.68rem;
+    letter-spacing: 0.8px;
+    margin-bottom: 0.45rem;
+  }
+
+  .host-announcement-card {
+    padding: 0.55rem 0.8rem;
+    border-radius: 12px;
+    margin-bottom: 0.45rem;
+  }
+
+  .host-tag-badge {
+    font-size: 0.58rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.2rem;
+  }
+
+  .host-parents-headline {
+    font-size: 1.08rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .host-invitation-sub {
+    font-size: 0.74rem;
+    line-height: 1.35;
+  }
+
+  .hero-names-group {
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-bottom: 0.45rem;
+  }
+
   .hero-bride-name, .hero-groom-name {
-    font-size: 1.8rem;
+    font-size: 1.55rem;
   }
+
+  .knot-word {
+    font-size: 1.2rem;
+  }
+
+  .quick-overview-ribbon {
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.72rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+  }
+
+  .ribbon-divider {
+    display: none;
+  }
+
+  .fly-scroll-prompt {
+    margin-top: 0.5rem;
+  }
+
+  .prompt-text {
+    font-size: 0.7rem;
+  }
+
+  /* Stage 2: Childhood Photo */
+  .memory-badge {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+  }
+
+  .memory-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .portrait-outer-frame {
+    width: 175px;
+    height: 225px;
+    margin: 0 auto 0.4rem;
+  }
+
+  .portrait-caption-pill {
+    padding: 0.25rem 0.8rem;
+    font-size: 0.72rem;
+    margin-top: -12px;
+  }
+
+  .memory-narrative {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    max-width: 95%;
+    margin-bottom: 0.4rem;
+  }
+
+  .quranic-verse-pill {
+    padding: 0.45rem 0.8rem;
+    border-radius: 10px;
+  }
+
+  .arabic-verse-snippet {
+    font-size: 1.05rem;
+  }
+
+  .verse-ref-snippet {
+    font-size: 0.68rem;
+  }
+
+  /* Stage 3: Couple Deck on Mobile (Bride Top, Groom Bottom - Both Visible) */
+  .couple-deck-container {
+    flex-direction: column;
+    gap: 0.35rem;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .sovereign-card {
+    min-width: unset;
+    width: 100%;
+    padding: 0.7rem 0.95rem;
+    border-radius: 14px;
+  }
+
+  .card-status-row {
+    margin-bottom: 0.2rem;
+  }
+
+  .card-role-tag {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .card-halo-icon {
+    width: 26px;
+    height: 26px;
+    font-size: 0.8rem;
+  }
+
+  .person-display-name {
+    font-size: 1.28rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .lineage-card {
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 0.2rem;
+    border-radius: 8px;
+  }
+
+  .lineage-subtitle {
+    font-size: 0.65rem;
+    letter-spacing: 0.8px;
+  }
+
+  .lineage-title {
+    font-size: 0.92rem;
+  }
+
+  .lineage-amp {
+    font-size: 1rem;
+  }
+
+  .person-heart-quote {
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+
+  .central-nikkah-emblem {
+    width: 32px;
+    height: 32px;
+    margin: -5px auto;
+  }
+
+  .emblem-core {
+    width: 26px;
+    height: 26px;
+  }
+
+  .emblem-core i {
+    font-size: 0.62rem;
+  }
+
+  .emblem-core span {
+    font-size: 0.48rem;
+  }
+
+  /* Stage 4: Live Countdown */
+  .countdown-pre-label {
+    font-size: 0.62rem;
+    letter-spacing: 1px;
+  }
+
+  .countdown-main-date {
+    font-size: 1.25rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .countdown-ceremony-hour {
+    font-size: 0.74rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .countdown-counter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    max-width: 320px;
+    margin: 0 auto 0.8rem;
+  }
+
   .counter-number-plate {
-    width: 72px;
-    height: 72px;
+    width: 100%;
+    height: 52px;
+    border-radius: 12px;
   }
+
   .counter-value {
-    font-size: 1.9rem;
+    font-size: 1.45rem;
   }
+
   .counter-unit-title {
+    font-size: 0.54rem;
+    letter-spacing: 0.5px;
+  }
+
+  .calendar-reminders-row {
+    flex-direction: row;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .cal-btn-glow {
+    width: 100%;
+    flex: 1;
+    justify-content: center;
+    font-size: 0.7rem;
+    padding: 0.5rem 0.5rem;
+    gap: 4px;
+  }
+
+  /* Stage 5: Programme & Venue */
+  .section-tag-gold {
+    font-size: 0.6rem;
+  }
+
+  .section-heading-gold {
+    font-size: 1.18rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .programme-grid-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .p-card {
+    padding: 0.45rem 0.75rem;
+    border-radius: 10px;
+  }
+
+  .p-time {
     font-size: 0.65rem;
   }
-  .countdown-counter-grid {
-    gap: 0.8rem;
+
+  .p-title {
+    font-size: 0.82rem;
   }
-  .portrait-outer-frame {
-    width: 240px;
-    height: 310px;
+
+  .p-detail {
+    font-size: 0.7rem;
   }
-  .chamber-card {
-    padding: 2.2rem 1.2rem;
+
+  .venue-media-wrapper {
+    min-height: 110px;
+    height: 110px;
+    border-radius: 10px;
+    margin-top: 0.4rem;
   }
-  .arabic-bismillah-glory {
-    font-size: 2.1rem;
+
+  .venue-real-photo {
+    height: 110px;
   }
+
+  .venue-title-name {
+    font-size: 1.05rem;
+    margin-top: 0.4rem;
+  }
+
+  .venue-address-line {
+    font-size: 0.72rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .venue-desc-text {
+    display: none; /* Hide redundant long text on mobile */
+  }
+
+  .venue-btn-group {
+    flex-direction: row;
+    width: 100%;
+    gap: 6px;
+  }
+
+  .btn-google-maps-direct, .btn-copy-address {
+    width: 100%;
+    flex: 1;
+    justify-content: center;
+    font-size: 0.72rem;
+    padding: 0.5rem 0.6rem;
+    gap: 4px;
+  }
+
+  /* Stage 6: Paradise */
+  .dua-arabic-huge {
+    font-size: 1.3rem;
+    line-height: 1.25;
+  }
+
+  .dua-english-sub {
+    font-size: 0.72rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .paradise-hero-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .paradise-spiritual-message {
+    font-size: 0.74rem;
+    line-height: 1.4;
+    margin-bottom: 0.7rem;
+  }
+
+  .paradise-actions-cluster {
+    flex-direction: row;
+    width: 100%;
+    gap: 6px;
+    margin-bottom: 0.7rem;
+  }
+
+  .action-btn-gold {
+    width: 100%;
+    flex: 1;
+    justify-content: center;
+    font-size: 0.72rem;
+    padding: 0.5rem 0.6rem;
+    gap: 4px;
+  }
+
+  .family-salutation-line {
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
+  .chamber-integrated-footer {
+    margin-top: 0.6rem;
+    padding-top: 0.5rem;
+    font-size: 0.68rem;
+  }
+
+  /* Stage 7: Developer Showcase on Mobile */
+  .developer-showcase-card {
+    padding: 1.25rem 1rem;
+    border-radius: 20px;
+  }
+
+  .dev-card-crest {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 0.45rem;
+  }
+
+  .dev-crest-monogram {
+    font-size: 1.05rem;
+  }
+
+  .dev-card-tag {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.65rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .dev-card-headline {
+    font-size: 0.9rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .dev-card-author {
+    font-size: 1.45rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .dev-card-profession {
+    font-size: 0.76rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.4rem;
+  }
+
+  .dev-card-note {
+    font-size: 0.72rem;
+    line-height: 1.4;
+    margin-bottom: 0.7rem;
+    max-width: 95%;
+  }
+
+  .dev-links-container {
+    gap: 6px;
+    margin-bottom: 0.7rem;
+  }
+
+  .dev-action-pill {
+    padding: 0.42rem 0.75rem;
+    font-size: 0.72rem;
+    gap: 5px;
+  }
+
+  .btn-replay-journey {
+    padding: 0.42rem 0.95rem;
+    font-size: 0.7rem;
+  }
+
+  /* Bottom Chamber Controller on Mobile */
+  .chamber-nav-bar {
+    bottom: 12px;
+    padding: 4px 6px;
+    gap: 4px;
+    max-width: 96vw;
+    border-radius: 30px;
+  }
+
+  .ch-dot {
+    width: 22px;
+    height: 22px;
+    font-size: 0.62rem;
+  }
+
+  .nav-arrow-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 0.65rem;
+  }
+
+  /* Arch Portals on Mobile */
+  .arch-frame {
+    width: 96vw;
+    height: 84vh;
+    border-width: 2px;
+  }
+
+  .arch-lantern-fixture {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+
+  .arch-lantern-fixture.lantern-left {
+    left: -8px;
+  }
+
+  .arch-lantern-fixture.lantern-right {
+    right: -8px;
+  }
+
+  /* Floating Quick Action Buttons on Mobile */
   .floating-dock {
-    bottom: 16px;
-    right: 16px;
+    bottom: 58px;
+    right: 14px;
+    gap: 8px;
+  }
+
+  .dock-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
   }
 }

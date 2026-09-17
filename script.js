@@ -484,8 +484,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.getElementById('nav-next-btn');
 
   const Z_SPACING = 2000; // Spacing in 3D pixels between each chamber
-  const TOTAL_STAGES = 6;
-  const TOTAL_DEPTH = (TOTAL_STAGES - 1) * Z_SPACING; // 10,000px
+  const TOTAL_STAGES = 7;
+  const TOTAL_DEPTH = (TOTAL_STAGES - 1) * Z_SPACING; // 12,000px
 
   let currentScroll = window.scrollY;
   let targetScroll = window.scrollY;
@@ -494,6 +494,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', () => {
     targetScroll = window.scrollY;
+  }, { passive: true });
+
+  // Mobile Touch Swipe Enhancement for Buttery Response
+  let touchLastY = 0;
+  let isTouchSwiping = false;
+
+  window.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      touchLastY = e.touches[0].clientY;
+      isTouchSwiping = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!isTouchSwiping || !e.touches[0] || document.body.classList.contains('card-closed')) return;
+    const currentY = e.touches[0].clientY;
+    const deltaY = touchLastY - currentY;
+    touchLastY = currentY;
+
+    window.scrollBy({ top: deltaY * 1.3, behavior: 'instant' });
+    targetScroll = window.scrollY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    isTouchSwiping = false;
   }, { passive: true });
 
   function updateChamberNavigator(index) {
@@ -532,9 +557,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Unified 60/120fps Animation Loop
   function mainEngineLoop() {
-    // 1. Smooth Camera Damping (Lerp)
+    // 1. Smooth Camera Damping (Faster lerp on mobile for immediate tactile feel)
+    const isMobile = window.innerWidth < 768;
+    const lerpFactor = isMobile ? 0.16 : 0.088;
     const scrollDiff = targetScroll - currentScroll;
-    currentScroll += scrollDiff * 0.088;
+    currentScroll += scrollDiff * lerpFactor;
     scrollVelocity = scrollDiff;
 
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -622,20 +649,25 @@ document.addEventListener('DOMContentLoaded', () => {
       portalScene.style.transform = `scale(${1 + progress * 0.16}) translate3d(0, ${-progress * 25}px, 0)`;
     }
 
-    if (progress < 0.25) {
-      if (realmMosque) realmMosque.style.opacity = `${Math.max(0, 1 - progress * 2)}`;
-      if (realmCorridor) realmCorridor.style.opacity = `${Math.min(1, progress * 4)}`;
+    if (progress < 0.20) {
+      if (realmMosque) realmMosque.style.opacity = `${Math.max(0, 1 - progress * 3)}`;
+      if (realmCorridor) realmCorridor.style.opacity = `${Math.min(1, progress * 4.5)}`;
       if (realmParadise) realmParadise.style.opacity = '0';
       if (celestialRays) celestialRays.style.opacity = '0.2';
-    } else if (progress < 0.72) {
-      const t = (progress - 0.25) / 0.47;
+    } else if (progress < 0.65) {
       if (realmMosque) realmMosque.style.opacity = '0';
       if (realmCorridor) realmCorridor.style.opacity = '1';
-      if (realmParadise) realmParadise.style.opacity = `${Math.max(0, (t - 0.5) * 2)}`;
-      if (celestialRays) celestialRays.style.opacity = `${0.3 + t * 0.45}`;
+      if (realmParadise) realmParadise.style.opacity = '0';
+      if (celestialRays) celestialRays.style.opacity = '0.35';
+    } else if (progress < 0.84) {
+      const t = (progress - 0.65) / 0.19;
+      if (realmMosque) realmMosque.style.opacity = '0';
+      if (realmCorridor) realmCorridor.style.opacity = `${Math.max(0, 1 - t)}`;
+      if (realmParadise) realmParadise.style.opacity = `${Math.min(1, t * 1.2)}`;
+      if (celestialRays) celestialRays.style.opacity = `${0.35 + t * 0.55}`;
     } else {
       if (realmMosque) realmMosque.style.opacity = '0';
-      if (realmCorridor) realmCorridor.style.opacity = `${Math.max(0, 1 - (progress - 0.72) * 3)}`;
+      if (realmCorridor) realmCorridor.style.opacity = '0';
       if (realmParadise) realmParadise.style.opacity = '1'; // Radiant Swargam
       if (celestialRays) celestialRays.style.opacity = '0.98';
     }
