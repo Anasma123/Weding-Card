@@ -89,7 +89,7 @@
   <div class="card-unfold-overlay" id="card-unfold-overlay">
     <div class="card-3d-scene">
       
-      <div class="wedding-card-3d" id="wedding-card-3d" role="button" tabindex="0" aria-label="Click to open Royal Wedding Card">
+      <div class="wedding-card-3d" id="wedding-card-3d" role="button" tabindex="0" onclick="openWeddingCard()" aria-label="Click to open Royal Wedding Card">
         
         <!-- Back Base of the Card -->
         <div class="card-face card-base">
@@ -97,7 +97,11 @@
             <p class="arabic-inside-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
             <div class="inside-monogram">Thasleena &amp; Murshid</div>
             <p class="inside-date">20 • 09 • 2026</p>
-            <div class="inside-invitation-ready">The Journey Begins Inside...</div>
+            <p class="inside-parents-note">Mr. Sadik Muneer &amp; Mrs. Nadiya cordially invite you</p>
+            <button class="btn-enter-journey" id="btn-enter-journey" onclick="proceedInsideVenue(event)">
+              <span>Begin Fly-Through</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <span class="card-countdown-hint" id="card-countdown-hint">Entering in 10s... or click to begin now</span>
           </div>
         </div>
 
@@ -122,7 +126,7 @@
         </div>
 
         <!-- Center Golden Wax Seal Medallion -->
-        <div class="card-wax-seal" id="card-wax-seal" title="Click to Open Wedding Card">
+        <div class="card-wax-seal" id="card-wax-seal" onclick="openWeddingCard()" title="Click to Open Wedding Card">
           <img src="assets/royal_crest.jpg" alt="Royal Wedding Seal" class="wax-seal-img" />
           <div class="wax-seal-ring"></div>
         </div>
@@ -131,7 +135,7 @@
 
       <!-- Action Prompt to Open -->
       <div class="open-instruction-box">
-        <button class="btn-open-card" id="btn-open-card">
+        <button class="btn-open-card" id="btn-open-card" onclick="openWeddingCard()">
           <i class="fa-solid fa-wand-magic-sparkles"></i>
           <span>OPEN ROYAL WEDDING CARD</span>
         </button>
@@ -141,15 +145,19 @@
     </div>
   </div>
 
+  <!-- Virtual Scroll Height Track for Native Smooth 3D Flight -->
+  <div id="scroll-track" class="scroll-track"></div>
+
   <!-- ========================================================
        4. THE 3D FLY-THROUGH TUNNEL (FLYING INSIDE THE MOSQUE TO PARADISE)
        ======================================================== -->
   <main class="tunnel-viewport" id="tunnel-viewport">
+    <div class="camera-world-3d" id="camera-world-3d">
 
-    <!-- ----------------------------------------------------
-         CHAMBER 01: THE SACRED MOSQUE ENTRANCE
-         ---------------------------------------------------- -->
-    <section class="tunnel-chamber chamber-1" id="chamber-1" data-stage="01" data-title="MOSQUE THRESHOLD">
+      <!-- ----------------------------------------------------
+           CHAMBER 01: THE SACRED MOSQUE ENTRANCE
+           ---------------------------------------------------- -->
+      <section class="tunnel-chamber chamber-1" id="chamber-1" data-stage="01" data-title="MOSQUE THRESHOLD">
       <div class="chamber-card main-hero-card">
         
         <div class="royal-crest-pod">
@@ -205,6 +213,15 @@
       </div>
     </section>
 
+    <!-- 3D ARCHITECTURAL MOSQUE PORTAL 01 -->
+    <div class="arch-portal arch-portal-1" data-portal="1">
+      <div class="arch-frame">
+        <div class="arch-inner-aperture"></div>
+        <div class="arch-lantern-fixture lantern-left"><i class="fa-solid fa-lightbulb"></i></div>
+        <div class="arch-lantern-fixture lantern-right"><i class="fa-solid fa-lightbulb"></i></div>
+      </div>
+    </div>
+
     <!-- ----------------------------------------------------
          CHAMBER 02: THE DESTINY CHAMBER (CHILDHOOD AI PHOTO)
          ---------------------------------------------------- -->
@@ -243,6 +260,15 @@
 
       </div>
     </section>
+
+    <!-- 3D ARCHITECTURAL MOSQUE PORTAL 02 -->
+    <div class="arch-portal arch-portal-2" data-portal="2">
+      <div class="arch-frame">
+        <div class="arch-inner-aperture"></div>
+        <div class="arch-lantern-fixture lantern-left"><i class="fa-solid fa-lightbulb"></i></div>
+        <div class="arch-lantern-fixture lantern-right"><i class="fa-solid fa-lightbulb"></i></div>
+      </div>
+    </div>
 
     <!-- ----------------------------------------------------
          CHAMBER 03: THE BRIDE & GROOM CORRIDOR
@@ -297,6 +323,15 @@
 
       </div>
     </section>
+
+    <!-- 3D ARCHITECTURAL MOSQUE PORTAL 03 -->
+    <div class="arch-portal arch-portal-3" data-portal="3">
+      <div class="arch-frame">
+        <div class="arch-inner-aperture"></div>
+        <div class="arch-lantern-fixture lantern-left"><i class="fa-solid fa-lightbulb"></i></div>
+        <div class="arch-lantern-fixture lantern-right"><i class="fa-solid fa-lightbulb"></i></div>
+      </div>
+    </div>
 
     <!-- ----------------------------------------------------
          CHAMBER 04: THE AUSPICIOUS LIVE COUNTDOWN
@@ -355,6 +390,15 @@
 
       </div>
     </section>
+
+    <!-- 3D ARCHITECTURAL MOSQUE PORTAL 04 -->
+    <div class="arch-portal arch-portal-4" data-portal="4">
+      <div class="arch-frame">
+        <div class="arch-inner-aperture"></div>
+        <div class="arch-lantern-fixture lantern-left"><i class="fa-solid fa-lightbulb"></i></div>
+        <div class="arch-lantern-fixture lantern-right"><i class="fa-solid fa-lightbulb"></i></div>
+      </div>
+    </div>
 
     <!-- ----------------------------------------------------
          CHAMBER 05: SACRED PROGRAMME & REAL VENUE DESTINATION
@@ -437,6 +481,15 @@
       </div>
     </section>
 
+    <!-- 3D CELESTIAL GATEWAY TO SWARGAM (PARADISE) -->
+    <div class="arch-portal arch-portal-5 paradise-gateway" data-portal="5">
+      <div class="arch-frame">
+        <div class="arch-inner-aperture paradise-opening"></div>
+        <div class="arch-lantern-fixture lantern-left"><i class="fa-solid fa-sun"></i></div>
+        <div class="arch-lantern-fixture lantern-right"><i class="fa-solid fa-sun"></i></div>
+      </div>
+    </div>
+
     <!-- ----------------------------------------------------
          CHAMBER 06: ASCENSION INTO CELESTIAL PARADISE (SWARGAM)
          ---------------------------------------------------- -->
@@ -478,19 +531,61 @@
           </p>
         </div>
 
+        <!-- Integrated Spiritual Footer -->
+        <div class="chamber-integrated-footer">
+          <p class="footer-couple-names">Thasleena Nasrin &amp; Muhammed Murshid</p>
+          <p class="footer-venue-meta">Sunday, September 20, 2026 • Aluvanpilakkal Juma Masjid, Poovattuparamba</p>
+          <p class="footer-barakah">Barakallahu Lakuma wa Baraka Alaikuma • Crafted with love &amp; prayers</p>
+        </div>
+
       </div>
     </section>
 
-    <!-- SPIRITUAL FOOTER -->
-    <footer class="journey-footer">
-      <div class="container">
-        <p class="footer-couple-names">Thasleena Nasrin &amp; Muhammed Murshid</p>
-        <p class="footer-venue-meta">Sunday, September 20, 2026 • Aluvanpilakkal Juma Masjid, Poovattuparamba</p>
-        <p class="footer-barakah">Barakallahu Lakuma wa Baraka Alaikuma • Crafted with love &amp; prayers</p>
-      </div>
-    </footer>
-
+    </div><!-- /camera-world-3d -->
   </main>
+
+  <!-- ========================================================
+       5. 3D CHAMBER DOCK / CONTROLLER (BOTTOM CENTER)
+       ======================================================== -->
+  <nav class="chamber-nav-bar" id="chamber-nav-bar" aria-label="3D Chamber Navigator">
+    <button class="nav-arrow-btn prev-btn" id="nav-prev-btn" title="Previous Chamber" aria-label="Previous Chamber">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <div class="chamber-dots-wrap" id="chamber-dots-wrap">
+      <button class="ch-dot active" data-index="0" title="1. Mosque Threshold"><span class="dot-num">1</span></button>
+      <button class="ch-dot" data-index="1" title="2. Childhood Destiny"><span class="dot-num">2</span></button>
+      <button class="ch-dot" data-index="2" title="3. The Blessed Couple"><span class="dot-num">3</span></button>
+      <button class="ch-dot" data-index="3" title="4. Sacred Countdown"><span class="dot-num">4</span></button>
+      <button class="ch-dot" data-index="4" title="5. Programme &amp; Venue"><span class="dot-num">5</span></button>
+      <button class="ch-dot" data-index="5" title="6. Celestial Paradise"><span class="dot-num">6</span></button>
+    </div>
+    <button class="nav-arrow-btn next-btn" id="nav-next-btn" title="Next Chamber" aria-label="Next Chamber">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </nav>
+
+  <!-- ========================================================
+       6. SEPARATE DEVELOPER WATERMARK (VERY BOTTOM)
+       ======================================================== -->
+  <footer class="site-developer-footer" id="site-developer-footer">
+    <div class="dev-footer-inner">
+      <span class="dev-credit-tag">Designed &amp; Developed by</span>
+      <span class="dev-name-title">Muhammed Anas M A</span>
+      <span class="dev-tag-sep">•</span>
+      <span class="dev-role-label">Software Engineer</span>
+      <div class="dev-social-tray">
+        <a href="https://anasma123.github.io/Portfolio/" target="_blank" rel="noopener noreferrer" class="dev-link-badge" title="Anas Portfolio">
+          <i class="fa-solid fa-globe"></i> Portfolio
+        </a>
+        <a href="https://www.linkedin.com/in/Muhammedanasma" target="_blank" rel="noopener noreferrer" class="dev-link-badge" title="LinkedIn Profile">
+          <i class="fa-brands fa-linkedin"></i> LinkedIn
+        </a>
+        <a href="https://www.instagram.com/muhammed_anas_ma" target="_blank" rel="noopener noreferrer" class="dev-link-badge" title="Instagram Profile">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+      </div>
+    </div>
+  </footer>
 
   <!-- High-Performance Script Engine -->
   <script src="script.js"></script>

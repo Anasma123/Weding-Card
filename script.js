@@ -3,6 +3,9 @@
    Thasleena Nasrin & Muhammed Murshid
    ======================================================== */
 
+// Global reference for instant onclick triggers
+window.openWeddingCard = null;
+
 document.addEventListener('DOMContentLoaded', () => {
   // Target Wedding Date: September 20, 2026 at 11:30 AM IST (UTC+5:30)
   const weddingDate = new Date('2026-09-20T11:30:00+05:30').getTime();
@@ -38,219 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (countSeconds) countSeconds.textContent = String(seconds).padStart(2, '0');
   }
 
-  // Execute immediately so numbers appear without 1ms delay
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
   /* ========================================================
-     2. 60FPS BUTTERY-SMOOTH 3D PERSPECTIVE FLIGHT PARTICLES
-     (Rose Petals & Golden Stardust with Zero GPU lag)
-     ======================================================== */
-  const canvas = document.getElementById('flight-particles-canvas');
-  const ctx = canvas.getContext('2d');
-  let particles = [];
-  let width, height;
-
-  function resizeCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  class FlightParticle {
-    constructor() {
-      this.reset(true);
-    }
-
-    reset(initial = false) {
-      this.x = (Math.random() - 0.5) * width * 1.5;
-      this.y = (Math.random() - 0.5) * height * 1.5;
-      this.z = initial ? Math.random() * 800 + 100 : 900;
-      this.type = Math.random() < 0.6 ? 'dust' : 'petal';
-      this.speedZ = Math.random() * 2.5 + 1.2;
-      this.angle = Math.random() * Math.PI * 2;
-      this.rotSpeed = (Math.random() - 0.5) * 0.03;
-
-      if (this.type === 'petal') {
-        const colors = ['#e62b53', '#cf1942', '#f85777', '#ffa4b6', '#d4af37'];
-        this.color = colors[Math.floor(Math.random() * colors.length)];
-        this.size = Math.random() * 12 + 10;
-      } else {
-        const golds = ['#ffd700', '#f6d365', '#fff3c4', '#d4af37'];
-        this.color = golds[Math.floor(Math.random() * golds.length)];
-        this.size = Math.random() * 2.5 + 1.5;
-      }
-    }
-
-    update(flightSpeed = 1) {
-      this.z -= this.speedZ * flightSpeed;
-      this.angle += this.rotSpeed;
-
-      if (this.z <= 20) {
-        this.reset();
-      }
-    }
-
-    draw() {
-      // 3D Perspective Projection formula
-      const fov = 350;
-      const scale = fov / (fov + this.z);
-      const projX = width / 2 + this.x * scale;
-      const projY = height / 2 + this.y * scale;
-
-      if (projX < -30 || projX > width + 30 || projY < -30 || projY > height + 30) {
-        return;
-      }
-
-      ctx.save();
-      ctx.translate(projX, projY);
-      ctx.rotate(this.angle);
-      ctx.globalAlpha = Math.min(1, (900 - this.z) / 400) * 0.85;
-
-      if (this.type === 'petal') {
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        const s = this.size * scale;
-        ctx.moveTo(0, 0);
-        ctx.bezierCurveTo(-s * 0.7, -s * 0.7, -s * 0.9, s * 0.9, 0, s * 1.2);
-        ctx.bezierCurveTo(s * 0.9, s * 0.9, s * 0.7, -s * 0.7, 0, 0);
-        ctx.fill();
-      } else {
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(0, 0, this.size * scale * 1.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.restore();
-    }
-  }
-
-  // Pre-allocate particle pool (optimal for 60/120fps)
-  const particleCount = window.innerWidth < 640 ? 40 : 80;
-  for (let i = 0; i < particleCount; i++) {
-    particles.push(new FlightParticle());
-  }
-
-  let lastScrollY = window.scrollY;
-  let scrollDelta = 0;
-
-  function renderFlightLoop() {
-    ctx.clearRect(0, 0, width, height);
-
-    // Calculate flight speed based on scroll movement
-    const currentScrollY = window.scrollY;
-    scrollDelta = Math.abs(currentScrollY - lastScrollY) * 0.08;
-    lastScrollY = currentScrollY;
-
-    const currentFlightSpeed = Math.min(1 + scrollDelta, 6);
-
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update(currentFlightSpeed);
-      particles[i].draw();
-    }
-
-    requestAnimationFrame(renderFlightLoop);
-  }
-  renderFlightLoop();
-
-  /* ========================================================
-     3. CINEMATIC REALM TRANSITIONS (MOSQUE -> CORRIDOR -> PARADISE)
-     ======================================================== */
-  const realmMosque = document.getElementById('realm-mosque');
-  const realmCorridor = document.getElementById('realm-corridor');
-  const realmParadise = document.getElementById('realm-paradise');
-  const celestialRays = document.getElementById('celestial-rays');
-
-  const hudStageNum = document.getElementById('hud-stage-num');
-  const hudStageText = document.getElementById('hud-stage-text');
-  const chambers = document.querySelectorAll('.tunnel-chamber');
-  const portalScene = document.getElementById('portal-scene');
-
-  let ticking = false;
-
-  function onScroll() {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        updateScenicTransitions();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }
-
-  function updateScenicTransitions() {
-    const scrollY = window.scrollY;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
-
-    // 3D Scene Zoom: Moving deeper through the sacred mosque to paradise
-    if (portalScene) {
-      portalScene.style.transform = `scale(${1 + progress * 0.18}) translate3d(0, ${-progress * 30}px, 0)`;
-    }
-
-    // Detect active stage for HUD & apply 3D camera flight dynamics to each card
-    const vh = window.innerHeight;
-    const triggerY = scrollY + vh * 0.45;
-
-    chambers.forEach(ch => {
-      const top = ch.offsetTop;
-      const h = ch.offsetHeight;
-      if (triggerY >= top && triggerY < top + h) {
-        const stage = ch.getAttribute('data-stage');
-        const title = ch.getAttribute('data-title');
-        if (hudStageNum) hudStageNum.textContent = `STAGE ${stage}`;
-        if (hudStageText) hudStageText.textContent = title;
-      }
-
-      // Smooth 3D depth movement
-      const card = ch.querySelector('.chamber-card, .couple-deck-container');
-      if (card) {
-        const rect = ch.getBoundingClientRect();
-        const centerOffset = (rect.top + rect.height / 2) - (vh / 2);
-        const normDist = centerOffset / vh; // -1 to 1
-
-        if (Math.abs(normDist) < 1.1) {
-          const zDepth = Math.max(-140, (1 - Math.abs(normDist)) * 50 - 50);
-          const pitch = normDist * -5;
-          const scale = Math.max(0.92, 1 - Math.abs(normDist) * 0.08);
-          card.style.transform = `perspective(1200px) translate3d(0, ${normDist * -18}px, ${zDepth}px) rotateX(${pitch}deg) scale(${scale})`;
-        }
-      }
-    });
-
-    // Scenic Crossfades:
-    // 0.0 - 0.25: Real Kerala Mosque Exterior
-    // 0.25 - 0.70: Grand Mosque Colonnade Corridor
-    // 0.70 - 1.00: Swargam (Celestial Paradise)
-    if (progress < 0.25) {
-      realmMosque.style.opacity = '1';
-      realmCorridor.style.opacity = '0';
-      realmParadise.style.opacity = '0';
-      celestialRays.style.opacity = '0.2';
-    } else if (progress < 0.70) {
-      const t = (progress - 0.25) / 0.45;
-      realmMosque.style.opacity = `${Math.max(0, 1 - t * 2)}`;
-      realmCorridor.style.opacity = '1';
-      realmParadise.style.opacity = `${Math.max(0, (t - 0.5) * 2)}`;
-      celestialRays.style.opacity = `${0.3 + t * 0.4}`;
-    } else {
-      realmMosque.style.opacity = '0';
-      realmCorridor.style.opacity = '0';
-      realmParadise.style.opacity = '1'; // Climax in Swargam
-      celestialRays.style.opacity = '0.95';
-    }
-
-    if (audio8D) {
-      audio8D.updateScrollProgress(progress);
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  /* ========================================================
-     4. TRUE 8D ROTATING SPATIAL AUDIO SYSTEM
+     2. TRUE 8D ROTATING SPATIAL AUDIO SYSTEM
      ======================================================== */
   class True8DSpatialAudio {
     constructor() {
@@ -431,12 +226,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const audioIcon = document.getElementById('audio-icon');
 
   function updateAudioUI(playing) {
+    if (!hudAudio) return;
     if (playing) {
       hudAudio.classList.add('playing');
-      audioIcon.className = 'fa-solid fa-volume-high';
+      if (audioIcon) audioIcon.className = 'fa-solid fa-volume-high';
     } else {
       hudAudio.classList.remove('playing');
-      audioIcon.className = 'fa-solid fa-volume-xmark';
+      if (audioIcon) audioIcon.className = 'fa-solid fa-volume-xmark';
     }
   }
 
@@ -446,17 +242,415 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Auto-play softly on first touch/click
-  const firstTouchHandler = () => {
-    audio8D.start();
-    window.removeEventListener('click', firstTouchHandler);
-    window.removeEventListener('touchstart', firstTouchHandler);
-  };
-  window.addEventListener('click', firstTouchHandler);
-  window.addEventListener('touchstart', firstTouchHandler);
+  /* ========================================================
+     3. 3D WEDDING CARD OPENING & REALISTIC UNBOXING SEQUENCE
+     (Failsafe & Top Priority)
+     ======================================================== */
+  const card3D = document.getElementById('wedding-card-3d');
+  const cardOverlay = document.getElementById('card-unfold-overlay');
+  const btnOpenCard = document.getElementById('btn-open-card');
+  const cardWaxSeal = document.getElementById('card-wax-seal');
+
+  if (card3D && cardOverlay) {
+    // Realistic 3D Tilt with smooth perspective
+    cardOverlay.addEventListener('mousemove', (e) => {
+      if (card3D.classList.contains('card-opening')) return;
+      const rect = card3D.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+
+      const rotateY = Math.max(-16, Math.min(16, dx * 16));
+      const rotateX = Math.max(-16, Math.min(16, -dy * 16));
+      card3D.style.transform = `perspective(1200px) rotateY(${rotateY.toFixed(2)}deg) rotateX(${rotateX.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+
+    cardOverlay.addEventListener('mouseleave', () => {
+      if (card3D.classList.contains('card-opening')) return;
+      card3D.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
+    });
+
+    // Touch support for mobile devices
+    cardOverlay.addEventListener('touchmove', (e) => {
+      if (card3D.classList.contains('card-opening') || !e.touches[0]) return;
+      const touch = e.touches[0];
+      const rect = card3D.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (touch.clientX - cx) / (rect.width / 2);
+      const dy = (touch.clientY - cy) / (rect.height / 2);
+      card3D.style.transform = `perspective(1200px) rotateY(${(dx * 12).toFixed(2)}deg) rotateX(${(-dy * 12).toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+    }, { passive: true });
+  }
+
+  let isCardOpened = false;
+  let isDivingIn = false;
+  let autoDiveTimeout = null;
+  let countdownInterval = null;
+
+  function proceedInsideVenue(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (isDivingIn) return;
+    isDivingIn = true;
+    if (autoDiveTimeout) clearTimeout(autoDiveTimeout);
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    if (card3D) card3D.classList.add('card-diving-in');
+
+    setTimeout(() => {
+      document.body.classList.remove('card-closed');
+      if (cardOverlay) cardOverlay.classList.add('opened');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      currentScroll = 0;
+      targetScroll = 0;
+    }, 950);
+  }
+
+  function openWeddingCard(e) {
+    if (isCardOpened) {
+      proceedInsideVenue(e);
+      return;
+    }
+    isCardOpened = true;
+
+    // 1. Play holy chime & start 8D spatial melody
+    try {
+      if (audio8D) {
+        audio8D.playChime(659.25);
+        audio8D.start();
+      }
+    } catch (err) {
+      console.warn('Audio playback waiting for user gesture:', err);
+    }
+
+    // 2. Burst golden confetti particles
+    if (typeof confetti === 'function') {
+      confetti({
+        particleCount: 90,
+        spread: 90,
+        origin: { y: 0.5 },
+        colors: ['#D4AF37', '#F5CE62', '#FFE89E', '#DE4E71', '#FFFFFF']
+      });
+    }
+
+    if (cardOverlay) cardOverlay.classList.add('opening');
+    if (card3D) {
+      card3D.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg)';
+      card3D.classList.add('card-opening');
+    }
+
+    // 3. 10 Full Seconds Reading Time as Requested by User
+    let remainingSecs = 10;
+    const hintEl = document.getElementById('card-countdown-hint');
+    if (hintEl) hintEl.textContent = `Entering in 10s... or click to begin now`;
+
+    countdownInterval = setInterval(() => {
+      remainingSecs--;
+      if (remainingSecs > 0 && hintEl) {
+        hintEl.textContent = `Entering in ${remainingSecs}s... or click to begin now`;
+      } else {
+        if (countdownInterval) clearInterval(countdownInterval);
+      }
+    }, 1000);
+
+    autoDiveTimeout = setTimeout(() => {
+      if (countdownInterval) clearInterval(countdownInterval);
+      proceedInsideVenue();
+    }, 10000);
+  }
+
+  // Bind to global for inline onclick fallback
+  window.openWeddingCard = openWeddingCard;
+  window.proceedInsideVenue = proceedInsideVenue;
+
+  if (btnOpenCard) btnOpenCard.addEventListener('click', openWeddingCard);
+  if (cardWaxSeal) cardWaxSeal.addEventListener('click', openWeddingCard);
+  if (card3D) {
+    card3D.addEventListener('click', (e) => {
+      if (isCardOpened) {
+        proceedInsideVenue(e);
+      } else {
+        openWeddingCard(e);
+      }
+    });
+  }
 
   /* ========================================================
-     5. VENUE ADDRESS COPY
+     4. 60FPS BUTTERY-SMOOTH 3D PERSPECTIVE FLIGHT PARTICLES
+     (Rose Petals & Golden Stardust)
+     ======================================================== */
+  const canvas = document.getElementById('flight-particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let width, height;
+
+  function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class FlightParticle {
+    constructor() {
+      this.reset(true);
+    }
+
+    reset(initial = false) {
+      this.x = (Math.random() - 0.5) * width * 1.5;
+      this.y = (Math.random() - 0.5) * height * 1.5;
+      this.z = initial ? Math.random() * 800 + 100 : 900;
+      this.type = Math.random() < 0.6 ? 'dust' : 'petal';
+      this.speedZ = Math.random() * 2.5 + 1.2;
+      this.angle = Math.random() * Math.PI * 2;
+      this.rotSpeed = (Math.random() - 0.5) * 0.03;
+
+      if (this.type === 'petal') {
+        const colors = ['#e62b53', '#cf1942', '#f85777', '#ffa4b6', '#d4af37'];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.size = Math.random() * 12 + 10;
+      } else {
+        const golds = ['#ffd700', '#f6d365', '#fff3c4', '#d4af37'];
+        this.color = golds[Math.floor(Math.random() * golds.length)];
+        this.size = Math.random() * 2.5 + 1.5;
+      }
+    }
+
+    update(flightSpeed = 1) {
+      this.z -= this.speedZ * flightSpeed;
+      this.angle += this.rotSpeed;
+
+      if (this.z <= 20) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      const fov = 350;
+      const scale = fov / (fov + this.z);
+      const projX = width / 2 + this.x * scale;
+      const projY = height / 2 + this.y * scale;
+
+      if (projX < -30 || projX > width + 30 || projY < -30 || projY > height + 30) {
+        return;
+      }
+
+      ctx.save();
+      ctx.translate(projX, projY);
+      ctx.rotate(this.angle);
+      ctx.globalAlpha = Math.min(1, (900 - this.z) / 400) * 0.85;
+
+      if (this.type === 'petal') {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        const s = this.size * scale;
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(-s * 0.7, -s * 0.7, -s * 0.9, s * 0.9, 0, s * 1.2);
+        ctx.bezierCurveTo(s * 0.9, s * 0.9, s * 0.7, -s * 0.7, 0, 0);
+        ctx.fill();
+      } else {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size * scale * 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+  }
+
+  const particleCount = window.innerWidth < 640 ? 40 : 80;
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new FlightParticle());
+  }
+
+  /* ========================================================
+     5. REVOLUTIONARY 3D FLY-THROUGH SCROLL & CAMERA ENGINE
+     (Mosque Colonnade -> Destiny -> Couple -> Paradise)
+     ======================================================== */
+  const realmMosque = document.getElementById('realm-mosque');
+  const realmCorridor = document.getElementById('realm-corridor');
+  const realmParadise = document.getElementById('realm-paradise');
+  const celestialRays = document.getElementById('celestial-rays');
+  const portalScene = document.getElementById('portal-scene');
+
+  const hudStageNum = document.getElementById('hud-stage-num');
+  const hudStageText = document.getElementById('hud-stage-text');
+  const chambers = Array.from(document.querySelectorAll('.tunnel-chamber'));
+  const portals = Array.from(document.querySelectorAll('.arch-portal'));
+  const chDots = Array.from(document.querySelectorAll('.ch-dot'));
+  const prevBtn = document.getElementById('nav-prev-btn');
+  const nextBtn = document.getElementById('nav-next-btn');
+
+  const Z_SPACING = 2000; // Spacing in 3D pixels between each chamber
+  const TOTAL_STAGES = 6;
+  const TOTAL_DEPTH = (TOTAL_STAGES - 1) * Z_SPACING; // 10,000px
+
+  let currentScroll = window.scrollY;
+  let targetScroll = window.scrollY;
+  let scrollVelocity = 0;
+  let activeChamberIndex = 0;
+
+  window.addEventListener('scroll', () => {
+    targetScroll = window.scrollY;
+  }, { passive: true });
+
+  function updateChamberNavigator(index) {
+    if (index === activeChamberIndex) return;
+    activeChamberIndex = index;
+    chDots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === index);
+    });
+
+    const activeChamber = chambers[index];
+    if (activeChamber) {
+      const stage = activeChamber.getAttribute('data-stage');
+      const title = activeChamber.getAttribute('data-title');
+      if (hudStageNum) hudStageNum.textContent = `STAGE ${stage}`;
+      if (hudStageText) hudStageText.textContent = title;
+    }
+  }
+
+  function goToChamber(index) {
+    const clamped = Math.max(0, Math.min(TOTAL_STAGES - 1, index));
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const targetY = (clamped / (TOTAL_STAGES - 1)) * maxScroll;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
+  }
+
+  chDots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => goToChamber(idx));
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => goToChamber(activeChamberIndex - 1));
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => goToChamber(activeChamberIndex + 1));
+  }
+
+  // Unified 60/120fps Animation Loop
+  function mainEngineLoop() {
+    // 1. Smooth Camera Damping (Lerp)
+    const scrollDiff = targetScroll - currentScroll;
+    currentScroll += scrollDiff * 0.088;
+    scrollVelocity = scrollDiff;
+
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maxScroll > 0 ? Math.min(Math.max(currentScroll / maxScroll, 0), 1) : 0;
+    const cameraZ = progress * TOTAL_DEPTH;
+
+    // 2. Render 3D Particles
+    ctx.clearRect(0, 0, width, height);
+    const particleSpeed = Math.min(1 + Math.abs(scrollVelocity) * 0.06, 6);
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update(particleSpeed);
+      particles[i].draw();
+    }
+
+    // 3. 3D Architectural Portals (Arches that zoom past you)
+    portals.forEach((arch, k) => {
+      const archZ = -(k * Z_SPACING + Z_SPACING * 0.5);
+      const relArchZ = archZ + cameraZ;
+
+      if (relArchZ < -3000 || relArchZ > 600) {
+        arch.style.display = 'none';
+      } else {
+        arch.style.display = 'flex';
+        let archOpacity = 1;
+        let archScale = 1;
+
+        if (relArchZ < -1400) {
+          archOpacity = Math.max(0, (relArchZ + 3000) / 1600);
+          archScale = 0.8 + (relArchZ + 3000) / 3000 * 0.2;
+        } else if (relArchZ <= 50) {
+          archOpacity = 1;
+          archScale = 1;
+        } else {
+          // Zooms past the user into the screen edges
+          archOpacity = Math.max(0, 1 - (relArchZ - 50) / 500);
+          archScale = 1 + (relArchZ - 50) * 0.0022;
+        }
+
+        arch.style.transform = `translate3d(-50%, -50%, ${relArchZ.toFixed(1)}px) scale(${archScale.toFixed(3)})`;
+        arch.style.opacity = archOpacity.toFixed(3);
+      }
+    });
+
+    // 4. 3D Chambers Movement (Flying forward through each chamber)
+    chambers.forEach((ch, idx) => {
+      const chZ = -idx * Z_SPACING;
+      const relZ = chZ + cameraZ;
+
+      if (relZ < -3000 || relZ > 550) {
+        ch.style.display = 'none';
+        ch.style.pointerEvents = 'none';
+      } else {
+        ch.style.display = 'flex';
+        let chOpacity = 1;
+        let chScale = 1;
+
+        if (relZ < -1300) {
+          chOpacity = Math.max(0, (relZ + 3000) / 1700);
+          chScale = 0.85 + (relZ + 3000) / 3000 * 0.15;
+        } else if (relZ <= 40) {
+          chOpacity = 1;
+          chScale = 1;
+        } else {
+          chOpacity = Math.max(0, 1 - (relZ - 40) / 450);
+          chScale = 1 + (relZ - 40) * 0.0018;
+        }
+
+        if (Math.abs(relZ) < 260 && chOpacity > 0.85) {
+          ch.style.pointerEvents = 'auto';
+        } else {
+          ch.style.pointerEvents = 'none';
+        }
+
+        ch.style.transform = `translate3d(-50%, -50%, ${relZ.toFixed(1)}px) scale(${chScale.toFixed(3)})`;
+        ch.style.opacity = chOpacity.toFixed(3);
+      }
+    });
+
+    // 5. Active Chamber Tracking for HUD & Nav
+    const nearestIdx = Math.min(TOTAL_STAGES - 1, Math.max(0, Math.round(progress * (TOTAL_STAGES - 1))));
+    updateChamberNavigator(nearestIdx);
+
+    // 6. Background Scene Zoom & Realistic Architectural Crossfades
+    if (portalScene) {
+      portalScene.style.transform = `scale(${1 + progress * 0.16}) translate3d(0, ${-progress * 25}px, 0)`;
+    }
+
+    if (progress < 0.25) {
+      if (realmMosque) realmMosque.style.opacity = `${Math.max(0, 1 - progress * 2)}`;
+      if (realmCorridor) realmCorridor.style.opacity = `${Math.min(1, progress * 4)}`;
+      if (realmParadise) realmParadise.style.opacity = '0';
+      if (celestialRays) celestialRays.style.opacity = '0.2';
+    } else if (progress < 0.72) {
+      const t = (progress - 0.25) / 0.47;
+      if (realmMosque) realmMosque.style.opacity = '0';
+      if (realmCorridor) realmCorridor.style.opacity = '1';
+      if (realmParadise) realmParadise.style.opacity = `${Math.max(0, (t - 0.5) * 2)}`;
+      if (celestialRays) celestialRays.style.opacity = `${0.3 + t * 0.45}`;
+    } else {
+      if (realmMosque) realmMosque.style.opacity = '0';
+      if (realmCorridor) realmCorridor.style.opacity = `${Math.max(0, 1 - (progress - 0.72) * 3)}`;
+      if (realmParadise) realmParadise.style.opacity = '1'; // Radiant Swargam
+      if (celestialRays) celestialRays.style.opacity = '0.98';
+    }
+
+    if (audio8D) {
+      audio8D.updateScrollProgress(progress);
+    }
+
+    requestAnimationFrame(mainEngineLoop);
+  }
+
+  mainEngineLoop();
+
+  /* ========================================================
+     6. VENUE ADDRESS COPY
      ======================================================== */
   const copyAddressBtn = document.getElementById('copy-address-action');
   const copiedToast = document.getElementById('copied-toast');
@@ -476,12 +670,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ========================================================
-     6. CELESTIAL PETAL SHOWER
+     7. CELESTIAL PETAL SHOWER
      ======================================================== */
   const showerBtn = document.getElementById('shower-petals-action');
   if (showerBtn) {
     showerBtn.addEventListener('click', () => {
-      audio8D.playChime(659.25);
+      if (audio8D) audio8D.playChime(659.25);
       if (typeof confetti === 'function') {
         confetti({
           particleCount: 120,
@@ -494,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ========================================================
-     7. CALENDAR INTEGRATION
+     8. CALENDAR INTEGRATION
      ======================================================== */
   const googleCalBtn = document.getElementById('google-calendar-trigger');
   const icalCalBtn = document.getElementById('ical-calendar-trigger');
@@ -542,7 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ========================================================
-     8. PRINT / SAVE INVITATION & SCROLL TOP
+     9. PRINT / SAVE INVITATION & SCROLL TOP
      ======================================================== */
   const printBtn = document.getElementById('print-invitation-action');
   if (printBtn) {
@@ -554,99 +748,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const scrollTopBtn = document.getElementById('scroll-top-btn');
   if (scrollTopBtn) {
     scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  /* ========================================================
-     9. 3D WEDDING CARD OPENING & REALISTIC UNBOXING SEQUENCE
-     ======================================================== */
-  const card3D = document.getElementById('wedding-card-3d');
-  const cardOverlay = document.getElementById('card-unfold-overlay');
-  const btnOpenCard = document.getElementById('btn-open-card');
-  const cardWaxSeal = document.getElementById('card-wax-seal');
-
-  if (card3D && cardOverlay) {
-    // Realistic 3D Tilt with smooth perspective
-    cardOverlay.addEventListener('mousemove', (e) => {
-      if (card3D.classList.contains('card-opening')) return;
-      const rect = card3D.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = (e.clientX - cx) / (rect.width / 2);
-      const dy = (e.clientY - cy) / (rect.height / 2);
-
-      const rotateY = Math.max(-16, Math.min(16, dx * 16));
-      const rotateX = Math.max(-16, Math.min(16, -dy * 16));
-      card3D.style.transform = `perspective(1200px) rotateY(${rotateY.toFixed(2)}deg) rotateX(${rotateX.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
-
-    cardOverlay.addEventListener('mouseleave', () => {
-      if (card3D.classList.contains('card-opening')) return;
-      card3D.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
-    });
-
-    // Touch support for mobile devices
-    cardOverlay.addEventListener('touchmove', (e) => {
-      if (card3D.classList.contains('card-opening') || !e.touches[0]) return;
-      const touch = e.touches[0];
-      const rect = card3D.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = (touch.clientX - cx) / (rect.width / 2);
-      const dy = (touch.clientY - cy) / (rect.height / 2);
-      card3D.style.transform = `perspective(1200px) rotateY(${(dx * 12).toFixed(2)}deg) rotateX(${(-dy * 12).toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
-    }, { passive: true });
-  }
-
-  let isCardOpened = false;
-
-  function openWeddingCard() {
-    if (isCardOpened) return;
-    isCardOpened = true;
-
-    // 1. Play chime and start 8D spatial melody
-    audio8D.playChime(659.25);
-    audio8D.start();
-
-    // 2. Burst golden confetti particles
-    if (typeof confetti === 'function') {
-      confetti({
-        particleCount: 90,
-        spread: 90,
-        origin: { y: 0.5 },
-        colors: ['#D4AF37', '#F5CE62', '#FFE89E', '#DE4E71', '#FFFFFF']
-      });
-    }
-
-    if (cardOverlay) cardOverlay.classList.add('opening');
-    if (card3D) {
-      card3D.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg)';
-      card3D.classList.add('card-opening');
-    }
-
-    // 3. Realistic camera dive into the card's parchment interior
-    setTimeout(() => {
-      if (card3D) card3D.classList.add('card-diving-in');
-    }, 600);
-
-    // 4. Reveal sacred venue threshold & allow scroll navigation
-    setTimeout(() => {
-      document.body.classList.remove('card-closed');
-      if (cardOverlay) cardOverlay.classList.add('opened');
-      const chamber1 = document.getElementById('chamber-1');
-      if (chamber1) {
-        chamber1.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 1250);
-  }
-
-  if (btnOpenCard) btnOpenCard.addEventListener('click', openWeddingCard);
-  if (cardWaxSeal) cardWaxSeal.addEventListener('click', openWeddingCard);
-  if (card3D) {
-    card3D.addEventListener('click', (e) => {
-      // Avoid re-triggering if already opened
-      openWeddingCard();
+      goToChamber(0);
     });
   }
 });

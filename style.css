@@ -413,18 +413,46 @@ body.card-closed {
   padding-bottom: 8px;
 }
 
-.inside-date {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--gold-deep);
-  letter-spacing: 3px;
+.inside-parents-note {
+  font-size: 0.85rem;
+  color: var(--text-body);
+  font-weight: 600;
+  max-width: 260px;
+  line-height: 1.4;
+  margin-top: 4px;
 }
 
-.inside-invitation-ready {
-  font-size: 0.85rem;
+.btn-enter-journey {
+  margin-top: 0.6rem;
+  background: var(--gold-gradient);
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 20px;
+  font-family: var(--font-cinzel);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.45);
+  transition: all 0.25s ease;
+}
+
+.btn-enter-journey:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.65);
+}
+
+.card-countdown-hint {
+  font-size: 0.72rem;
   color: var(--text-muted);
+  letter-spacing: 0.5px;
   font-style: italic;
-  margin-top: 1rem;
+  margin-top: 6px;
+  opacity: 0.85;
 }
 
 /* 3D Gatefold Doors */
@@ -556,6 +584,9 @@ body.card-closed {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  position: relative;
+  z-index: 120;
+  pointer-events: auto;
   transition: opacity 0.4s ease;
 }
 
@@ -576,6 +607,9 @@ body.card-closed {
   padding: 0.9rem 2.2rem;
   border-radius: 35px;
   cursor: pointer;
+  position: relative;
+  z-index: 125;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -596,40 +630,79 @@ body.card-closed {
 /* ========================================================
    4. 3D FLY-THROUGH TUNNEL & CHAMBERS
    ======================================================== */
-.tunnel-viewport {
+.scroll-track {
   position: relative;
-  z-index: 10;
-  perspective: 1200px;
+  width: 100%;
+  height: 6500px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.tunnel-viewport {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  perspective: 1050px;
   perspective-origin: 50% 50%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.camera-world-3d {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+  pointer-events: none;
 }
 
 .tunnel-chamber {
-  min-height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 94%;
+  max-width: 860px;
+  max-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6.5rem 1.5rem;
-  position: relative;
-  perspective: 1200px;
+  padding: 0;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  opacity: 0;
 }
 
 .chamber-card {
   width: 100%;
-  max-width: 860px;
+  max-height: 82vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-primary) rgba(212, 175, 55, 0.1);
   background: var(--bg-card);
   border: var(--gold-card-border);
   border-radius: 28px;
-  padding: 3.5rem 2.5rem;
+  padding: 2.6rem 2.2rem;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   position: relative;
-  overflow: hidden;
-  will-change: transform, opacity;
   transform: translate3d(0, 0, 0);
-  transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1), opacity 0.4s ease;
+}
+
+.chamber-card::-webkit-scrollbar {
+  width: 5px;
+}
+.chamber-card::-webkit-scrollbar-thumb {
+  background: var(--gold-primary);
+  border-radius: 3px;
 }
 
 .chamber-card::before {
@@ -640,6 +713,243 @@ body.card-closed {
   right: 0;
   height: 5px;
   background: var(--gold-gradient);
+}
+
+/* 3D Architectural Mosque Arch Portals */
+.arch-portal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  opacity: 0;
+}
+
+.arch-frame {
+  position: relative;
+  width: 92vw;
+  max-width: 960px;
+  height: 88vh;
+  max-height: 800px;
+  border: 3.5px solid rgba(212, 175, 55, 0.5);
+  border-top-left-radius: 50% 40%;
+  border-top-right-radius: 50% 40%;
+  border-bottom: none;
+  box-shadow: 0 0 45px rgba(212, 175, 55, 0.3), inset 0 0 40px rgba(212, 175, 55, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arch-inner-aperture {
+  position: absolute;
+  inset: 16px;
+  border: 1.5px dashed rgba(212, 175, 55, 0.35);
+  border-top-left-radius: 50% 40%;
+  border-top-right-radius: 50% 40%;
+  border-bottom: none;
+  pointer-events: none;
+}
+
+.paradise-gateway .arch-frame {
+  border-color: rgba(255, 215, 0, 0.75);
+  box-shadow: 0 0 60px rgba(255, 215, 0, 0.5), inset 0 0 50px rgba(255, 235, 140, 0.35);
+}
+
+.arch-lantern-fixture {
+  position: absolute;
+  top: 30%;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 18px rgba(212, 175, 55, 0.6);
+  animation: lanternGlow 3s ease-in-out infinite alternate;
+}
+
+.arch-lantern-fixture.lantern-left {
+  left: -22px;
+}
+
+.arch-lantern-fixture.lantern-right {
+  right: -22px;
+}
+
+@keyframes lanternGlow {
+  0% { transform: scale(0.95); box-shadow: 0 2px 10px rgba(212, 175, 55, 0.4); }
+  100% { transform: scale(1.05); box-shadow: 0 6px 24px rgba(212, 175, 55, 0.85); }
+}
+
+/* 3D Chamber Bottom Dock / Controller */
+.chamber-nav-bar {
+  position: fixed;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1.5px solid var(--gold-primary);
+  border-radius: 40px;
+  padding: 6px 14px;
+  box-shadow: 0 8px 30px rgba(160, 120, 50, 0.22);
+}
+
+.nav-arrow-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: var(--gold-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-arrow-btn:hover {
+  background: var(--gold-gradient);
+  color: #fff;
+  border-color: transparent;
+  transform: scale(1.08);
+}
+
+.chamber-dots-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ch-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  background: #fff;
+  color: var(--gold-deep);
+  font-family: var(--font-cinzel);
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.ch-dot:hover,
+.ch-dot.active {
+  background: var(--gold-gradient);
+  color: #fff;
+  border-color: var(--gold-bright);
+  transform: scale(1.15);
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+}
+
+.chamber-integrated-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed rgba(212, 175, 55, 0.4);
+  width: 100%;
+  text-align: center;
+}
+
+/* ========================================================
+   6. SEPARATE DEVELOPER SIGNATURE (VERY BOTTOM OF SCREEN)
+   ======================================================== */
+.site-developer-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 95;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(212, 175, 55, 0.28);
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.dev-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.dev-credit-tag {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.dev-name-title {
+  font-family: var(--font-cinzel);
+  font-weight: 800;
+  color: var(--gold-deep);
+  letter-spacing: 0.5px;
+}
+
+.dev-tag-sep {
+  color: var(--gold-bright);
+}
+
+.dev-role-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-body);
+}
+
+.dev-social-tray {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 6px;
+}
+
+.dev-link-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-body);
+  text-decoration: none;
+  background: #ffffff;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 12px;
+  padding: 2px 8px;
+  transition: all 0.2s ease;
+}
+
+.dev-link-badge:hover {
+  background: var(--gold-gradient);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-1px);
 }
 
 /* --------------------------------------------------------
