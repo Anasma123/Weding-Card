@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Royal Nikkah Invitation | Thasleena Nasrin &amp; Muhammed Murshid</title>
-  <meta name="description" content="A cinematic 3D journey to the blessed Nikkah ceremony of Thasleena Nasrin and Muhammed Murshid at Aluvanpilakkal Juma Masjid, Poovattuparamba on September 20, 2026." />
+  <meta name="description" content="An immersive 3D unboxing and fly-through journey to the blessed Nikkah ceremony of Thasleena Nasrin and Muhammed Murshid at Aluvanpilakkal Juma Masjid, Poovattuparamba on September 20, 2026." />
   <meta property="og:title" content="Royal Nikkah Invitation | Thasleena Nasrin &amp; Muhammed Murshid" />
-  <meta property="og:description" content="Experience the 3D fly-through from the sacred mosque to heavenly paradise for the Nikkah of Thasleena Nasrin &amp; Muhammed Murshid." />
+  <meta property="og:description" content="Experience the 3D unfolding card and fly-through journey through the sacred mosque to celestial paradise." />
   <meta property="og:image" content="assets/royal_crest.jpg" />
   <meta property="og:type" content="website" />
   
   <link rel="icon" type="image/jpeg" href="assets/royal_crest.jpg" />
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Royal Calligraphy & Serif -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;800;900&family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet" />
@@ -26,16 +26,13 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="journey-body">
+<body class="journey-body card-closed">
 
   <!-- ========================================================
-       1. HARDWARE-ACCELERATED 3D STAGE & SCENIC PORTAL
+       1. FIXED 3D BACKGROUND STAGE & PARTICLES
        ======================================================== -->
   <div id="stage-viewport">
-    <!-- Smooth Flying Particles (GPU Canvas) -->
     <canvas id="flight-particles-canvas"></canvas>
-
-    <!-- 3D Moving Corridors & Parallax Transitions -->
     <div class="portal-scene" id="portal-scene">
       <div class="scenic-realm realm-mosque" id="realm-mosque"></div>
       <div class="scenic-realm realm-corridor" id="realm-corridor"></div>
@@ -46,7 +43,7 @@
   </div>
 
   <!-- ========================================================
-       2. FLIGHT HUD & 8D AUDIO HEADER
+       2. FLIGHT HUD & 8D SPATIAL AUDIO CONTROLLER
        ======================================================== -->
   <header class="flight-hud">
     <div class="hud-brand">
@@ -54,14 +51,13 @@
       <span class="hud-monogram">T &amp; M</span>
     </div>
 
-    <div class="hud-stage-pill">
-      <span class="hud-stage-num" id="hud-stage-num">STAGE 01</span>
+    <div class="hud-stage-pill" id="hud-stage-pill">
+      <span class="hud-stage-num" id="hud-stage-num">ROYAL CARD</span>
       <span class="hud-dot">✦</span>
-      <span class="hud-stage-text" id="hud-stage-text">MOSQUE THRESHOLD</span>
+      <span class="hud-stage-text" id="hud-stage-text">TOUCH TO UNFOLD</span>
     </div>
 
-    <!-- 8D Audio Player -->
-    <div class="hud-audio-8d" id="hud-audio-8d" title="Click to Toggle 8D Spatial Audio">
+    <div class="hud-audio-8d" id="hud-audio-8d" title="Toggle 8D Spatial Audio">
       <button class="audio-btn" id="audio-btn" aria-label="Toggle 8D Audio">
         <i class="fa-solid fa-headphones-simple" id="audio-icon"></i>
       </button>
@@ -82,20 +78,78 @@
     <a href="https://maps.app.goo.gl/YUZmXMJmNQcPK9TXA?g_st=ac" target="_blank" rel="noopener noreferrer" class="dock-btn maps-link" title="Open Venue on Google Maps">
       <i class="fa-solid fa-location-dot"></i>
     </a>
-    <button class="dock-btn scroll-top-btn" id="scroll-top-btn" title="Back to Top">
+    <button class="dock-btn scroll-top-btn" id="scroll-top-btn" title="Back to Beginning">
       <i class="fa-solid fa-arrow-up"></i>
     </button>
   </aside>
 
   <!-- ========================================================
-       3. FIRST-PERSON CINEMATIC JOURNEY (MOSQUE TO PARADISE)
-       ======================================================== */ -->
-  <main class="journey-corridor" id="journey-corridor">
+       3. INTERACTIVE 3D WEDDING CARD OPENING EXPERIENCE
+       ======================================================== -->
+  <div class="card-unfold-overlay" id="card-unfold-overlay">
+    <div class="card-3d-scene">
+      
+      <div class="wedding-card-3d" id="wedding-card-3d" role="button" tabindex="0" aria-label="Click to open Royal Wedding Card">
+        
+        <!-- Back Base of the Card -->
+        <div class="card-face card-base">
+          <div class="base-inner-parchment">
+            <p class="arabic-inside-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+            <div class="inside-monogram">Thasleena &amp; Murshid</div>
+            <p class="inside-date">20 • 09 • 2026</p>
+            <div class="inside-invitation-ready">The Journey Begins Inside...</div>
+          </div>
+        </div>
+
+        <!-- Left 3D Opening Door / Flap -->
+        <div class="card-face card-door card-door-left" id="card-door-left">
+          <div class="door-ornament-wrap">
+            <div class="door-filigree-border"></div>
+            <div class="door-half-crest left-crest">
+              <span class="door-letter">T</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 3D Opening Door / Flap -->
+        <div class="card-face card-door card-door-right" id="card-door-right">
+          <div class="door-ornament-wrap">
+            <div class="door-filigree-border"></div>
+            <div class="door-half-crest right-crest">
+              <span class="door-letter">M</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center Golden Wax Seal Medallion -->
+        <div class="card-wax-seal" id="card-wax-seal" title="Click to Open Wedding Card">
+          <img src="assets/royal_crest.jpg" alt="Royal Wedding Seal" class="wax-seal-img" />
+          <div class="wax-seal-ring"></div>
+        </div>
+
+      </div>
+
+      <!-- Action Prompt to Open -->
+      <div class="open-instruction-box">
+        <button class="btn-open-card" id="btn-open-card">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>OPEN ROYAL WEDDING CARD</span>
+        </button>
+        <span class="instruction-sub">Click to break the golden seal &amp; fly inside</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================
+       4. THE 3D FLY-THROUGH TUNNEL (FLYING INSIDE THE MOSQUE TO PARADISE)
+       ======================================================== -->
+  <main class="tunnel-viewport" id="tunnel-viewport">
 
     <!-- ----------------------------------------------------
-         STAGE 01: THE SACRED MOSQUE ENTRANCE
+         CHAMBER 01: THE SACRED MOSQUE ENTRANCE
          ---------------------------------------------------- -->
-    <section class="portal-chamber chamber-1" id="chamber-1" data-stage="01" data-title="MOSQUE THRESHOLD">
+    <section class="tunnel-chamber chamber-1" id="chamber-1" data-stage="01" data-title="MOSQUE THRESHOLD">
       <div class="chamber-card main-hero-card">
         
         <div class="royal-crest-pod">
@@ -109,10 +163,10 @@
         </div>
 
         <div class="host-announcement-card">
-          <span class="host-tag-badge">UNDER THE DIVINE GRACE OF ALMIGHTY ALLAH</span>
+          <span class="host-tag-badge">UNDER THE AUSPICIOUS GRACE OF ALMIGHTY ALLAH</span>
           <h2 class="host-parents-headline">Mr. Sadik Muneer &amp; Mrs. Nadiya</h2>
           <p class="host-invitation-sub">
-            Cordially invite you and your family to grace the blessed Nikkah ceremony of their beloved daughter
+            Cordially invite you and your family to celebrate the blessed Nikkah ceremony of their beloved daughter
           </p>
         </div>
 
@@ -142,7 +196,7 @@
 
         <!-- Fly-Through Prompt -->
         <div class="fly-scroll-prompt">
-          <span class="prompt-text">Scroll Down to Journey Through the Sacred Mosque</span>
+          <span class="prompt-text">Scroll Down to Fly Through the Sacred Colonnade</span>
           <div class="prompt-arrow">
             <i class="fa-solid fa-chevron-down"></i>
           </div>
@@ -152,9 +206,9 @@
     </section>
 
     <!-- ----------------------------------------------------
-         STAGE 02: THE DESTINY CHAMBER (CHILDHOOD AI PHOTO)
+         CHAMBER 02: THE DESTINY CHAMBER (CHILDHOOD AI PHOTO)
          ---------------------------------------------------- -->
-    <section class="portal-chamber chamber-2" id="chamber-2" data-stage="02" data-title="DESTINED BY ALLAH">
+    <section class="tunnel-chamber chamber-2" id="chamber-2" data-stage="02" data-title="DESTINED BY ALLAH">
       <div class="chamber-card memory-sanctuary-card">
         
         <div class="memory-header">
@@ -179,21 +233,21 @@
         </div>
 
         <p class="memory-narrative">
-          "Before the world knew, Allah had already decreed their hearts for one another. From precious childhood smiles and innocent footsteps to a blessed covenant of companionship, their union is a beautiful sign of divine love."
+          "Before their steps consciously crossed, Almighty Allah had already intertwined their destiny. From innocent childhood laughter and little footsteps to an eternal covenant of faith and devotion, their union is a blessed testament to divine will."
         </p>
 
         <div class="quranic-verse-pill">
           <p class="arabic-verse-snippet">« وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً »</p>
-          <span class="verse-ref-snippet">"And He placed between your hearts affection and mercy" (Surah Ar-Rum 30:21)</span>
+          <span class="verse-ref-snippet">"And He has placed affection and mercy between your hearts" (Surah Ar-Rum 30:21)</span>
         </div>
 
       </div>
     </section>
 
     <!-- ----------------------------------------------------
-         STAGE 03: THE BRIDE & GROOM CORRIDOR
+         CHAMBER 03: THE BRIDE & GROOM CORRIDOR
          ---------------------------------------------------- -->
-    <section class="portal-chamber chamber-3" id="chamber-3" data-stage="03" data-title="THE BLESSED COUPLE">
+    <section class="tunnel-chamber chamber-3" id="chamber-3" data-stage="03" data-title="THE BLESSED COUPLE">
       <div class="couple-deck-container">
         
         <!-- BRIDE CARD (FIRST) -->
@@ -210,7 +264,7 @@
             <p class="lineage-title">Nadiya</p>
           </div>
           <p class="person-heart-quote">
-            "Seeking Almighty Allah's endless barakah and your sincere prayers as we begin a lifetime of harmony, faith, and mutual respect."
+            "Entering this holy covenant with complete trust in Allah's boundless grace, seeking your heartfelt prayers for peace, barakah, and eternal love."
           </p>
         </div>
 
@@ -219,7 +273,7 @@
           <div class="emblem-orbital-ring"></div>
           <div class="emblem-core">
             <i class="fa-solid fa-ring"></i>
-            <span>NIKKAH</span>
+            <span>عَـقْـد</span>
           </div>
         </div>
 
@@ -237,7 +291,7 @@
             <p class="lineage-title">Fathima</p>
           </div>
           <p class="person-heart-quote">
-            "May the Almighty illuminate our home with peace, joy, and grant us righteousness together in this life and the hereafter."
+            "May the Almighty illuminate our home with happiness, mutual respect, and guide our journey hand in hand on the righteous path."
           </p>
         </div>
 
@@ -245,12 +299,12 @@
     </section>
 
     <!-- ----------------------------------------------------
-         STAGE 04: THE AUSPICIOUS COUNTDOWN
+         CHAMBER 04: THE AUSPICIOUS LIVE COUNTDOWN
          ---------------------------------------------------- -->
-    <section class="portal-chamber chamber-4" id="chamber-4" data-stage="04" data-title="TIME COUNTDOWN">
+    <section class="tunnel-chamber chamber-4" id="chamber-4" data-stage="04" data-title="TIME COUNTDOWN">
       <div class="chamber-card countdown-stage-card">
         
-        <span class="countdown-pre-label">COUNTING DOWN TO THE AUSPICIOUS CEREMONY</span>
+        <span class="countdown-pre-label">COUNTING DOWN TO THE SACRED NIKKAH</span>
         <h2 class="countdown-main-date">Sunday, 20 September 2026</h2>
         <p class="countdown-ceremony-hour">Solemnization Ceremony at 11:30 AM IST</p>
 
@@ -273,7 +327,7 @@
 
           <div class="counter-box">
             <div class="counter-number-plate">
-              <span class="counter-value" id="count-minutes">45</span>
+              <span class="counter-value" id="count-minutes">41</span>
             </div>
             <span class="counter-unit-title">MINUTES</span>
           </div>
@@ -287,7 +341,7 @@
 
         </div>
 
-        <!-- Add to Calendar Integration -->
+        <!-- Add to Calendar Reminders -->
         <div class="calendar-reminders-row">
           <button class="cal-btn-glow google-cal" id="google-calendar-trigger">
             <i class="fa-brands fa-google"></i>
@@ -303,9 +357,9 @@
     </section>
 
     <!-- ----------------------------------------------------
-         STAGE 05: SACRED PROGRAMME & VENUE DESTINATION
+         CHAMBER 05: SACRED PROGRAMME & REAL VENUE DESTINATION
          ---------------------------------------------------- -->
-    <section class="portal-chamber chamber-5" id="chamber-5" data-stage="05" data-title="PROGRAMME &amp; VENUE">
+    <section class="tunnel-chamber chamber-5" id="chamber-5" data-stage="05" data-title="PROGRAMME &amp; VENUE">
       <div class="chamber-card venue-itinerary-card">
         
         <!-- Programme Grid -->
@@ -350,7 +404,7 @@
           </div>
 
           <div class="venue-text-wrapper">
-            <span class="venue-subhead">SACRED CEREMONY VENUE</span>
+            <span class="venue-subhead">CEREMONY VENUE</span>
             <h3 class="venue-title-name">Aluvanpilakkal Juma Masjid</h3>
             <p class="venue-address-line">
               <i class="fa-solid fa-location-dot"></i> Poovattuparamba, Kozhikode, Kerala 673008
@@ -362,7 +416,7 @@
 
             <div class="venue-conveniences">
               <span><i class="fa-solid fa-clock"></i> 11:30 AM IST Sharp</span>
-              <span><i class="fa-solid fa-square-parking"></i> Guest Parking Available</span>
+              <span><i class="fa-solid fa-square-parking"></i> Dedicated Guest Parking</span>
             </div>
 
             <!-- EXACT USER GOOGLE MAPS LINK BUTTON -->
@@ -384,9 +438,9 @@
     </section>
 
     <!-- ----------------------------------------------------
-         STAGE 06: ASCENSION INTO CELESTIAL PARADISE (SWARGAM)
+         CHAMBER 06: ASCENSION INTO CELESTIAL PARADISE (SWARGAM)
          ---------------------------------------------------- -->
-    <section class="portal-chamber chamber-6" id="chamber-6" data-stage="06" data-title="CELESTIAL PARADISE">
+    <section class="tunnel-chamber chamber-6" id="chamber-6" data-stage="06" data-title="CELESTIAL PARADISE">
       <div class="chamber-card paradise-final-card">
         
         <div class="paradise-sun-burst"></div>
@@ -400,7 +454,7 @@
 
         <h2 class="paradise-hero-title">A Union Destined for Paradise</h2>
         <p class="paradise-spiritual-message">
-          May the Almighty bless Thasleena Nasrin and Muhammed Murshid with endless joy, tranquility, and grant them a companionship that blossoms in this world and continues into the highest gardens of Jannat-ul-Firdaus.
+          May the Almighty bless Thasleena Nasrin and Muhammed Murshid with endless happiness, mutual tranquility, and grant them a blessed companionship that begins in this life and flourishes into the highest gardens of Jannat-ul-Firdaus.
         </p>
 
         <!-- Celebration Action Buttons -->
@@ -438,7 +492,7 @@
 
   </main>
 
-  <!-- High-Performance 60fps JavaScript Engine -->
+  <!-- High-Performance Script Engine -->
   <script src="script.js"></script>
 </body>
 </html>

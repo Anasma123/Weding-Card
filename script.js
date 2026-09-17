@@ -165,7 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const hudStageNum = document.getElementById('hud-stage-num');
   const hudStageText = document.getElementById('hud-stage-text');
-  const chambers = document.querySelectorAll('.portal-chamber');
+  const chambers = document.querySelectorAll('.tunnel-chamber');
+  const portalScene = document.getElementById('portal-scene');
 
   let ticking = false;
 
@@ -184,8 +185,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
 
-    // Detect active stage for HUD
-    const triggerY = scrollY + window.innerHeight * 0.4;
+    // 3D Scene Zoom: Moving deeper through the sacred mosque to paradise
+    if (portalScene) {
+      portalScene.style.transform = `scale(${1 + progress * 0.18}) translate3d(0, ${-progress * 30}px, 0)`;
+    }
+
+    // Detect active stage for HUD & apply 3D camera flight dynamics to each card
+    const vh = window.innerHeight;
+    const triggerY = scrollY + vh * 0.45;
+
     chambers.forEach(ch => {
       const top = ch.offsetTop;
       const h = ch.offsetHeight;
@@ -194,6 +202,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const title = ch.getAttribute('data-title');
         if (hudStageNum) hudStageNum.textContent = `STAGE ${stage}`;
         if (hudStageText) hudStageText.textContent = title;
+      }
+
+      // Smooth 3D depth movement
+      const card = ch.querySelector('.chamber-card, .couple-deck-container');
+      if (card) {
+        const rect = ch.getBoundingClientRect();
+        const centerOffset = (rect.top + rect.height / 2) - (vh / 2);
+        const normDist = centerOffset / vh; // -1 to 1
+
+        if (Math.abs(normDist) < 1.1) {
+          const zDepth = Math.max(-140, (1 - Math.abs(normDist)) * 50 - 50);
+          const pitch = normDist * -5;
+          const scale = Math.max(0.92, 1 - Math.abs(normDist) * 0.08);
+          card.style.transform = `perspective(1200px) translate3d(0, ${normDist * -18}px, ${zDepth}px) rotateX(${pitch}deg) scale(${scale})`;
+        }
       }
     });
 
@@ -532,6 +555,98 @@ document.addEventListener('DOMContentLoaded', () => {
   if (scrollTopBtn) {
     scrollTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  /* ========================================================
+     9. 3D WEDDING CARD OPENING & REALISTIC UNBOXING SEQUENCE
+     ======================================================== */
+  const card3D = document.getElementById('wedding-card-3d');
+  const cardOverlay = document.getElementById('card-unfold-overlay');
+  const btnOpenCard = document.getElementById('btn-open-card');
+  const cardWaxSeal = document.getElementById('card-wax-seal');
+
+  if (card3D && cardOverlay) {
+    // Realistic 3D Tilt with smooth perspective
+    cardOverlay.addEventListener('mousemove', (e) => {
+      if (card3D.classList.contains('card-opening')) return;
+      const rect = card3D.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+
+      const rotateY = Math.max(-16, Math.min(16, dx * 16));
+      const rotateX = Math.max(-16, Math.min(16, -dy * 16));
+      card3D.style.transform = `perspective(1200px) rotateY(${rotateY.toFixed(2)}deg) rotateX(${rotateX.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+
+    cardOverlay.addEventListener('mouseleave', () => {
+      if (card3D.classList.contains('card-opening')) return;
+      card3D.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
+    });
+
+    // Touch support for mobile devices
+    cardOverlay.addEventListener('touchmove', (e) => {
+      if (card3D.classList.contains('card-opening') || !e.touches[0]) return;
+      const touch = e.touches[0];
+      const rect = card3D.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (touch.clientX - cx) / (rect.width / 2);
+      const dy = (touch.clientY - cy) / (rect.height / 2);
+      card3D.style.transform = `perspective(1200px) rotateY(${(dx * 12).toFixed(2)}deg) rotateX(${(-dy * 12).toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+    }, { passive: true });
+  }
+
+  let isCardOpened = false;
+
+  function openWeddingCard() {
+    if (isCardOpened) return;
+    isCardOpened = true;
+
+    // 1. Play chime and start 8D spatial melody
+    audio8D.playChime(659.25);
+    audio8D.start();
+
+    // 2. Burst golden confetti particles
+    if (typeof confetti === 'function') {
+      confetti({
+        particleCount: 90,
+        spread: 90,
+        origin: { y: 0.5 },
+        colors: ['#D4AF37', '#F5CE62', '#FFE89E', '#DE4E71', '#FFFFFF']
+      });
+    }
+
+    if (cardOverlay) cardOverlay.classList.add('opening');
+    if (card3D) {
+      card3D.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg)';
+      card3D.classList.add('card-opening');
+    }
+
+    // 3. Realistic camera dive into the card's parchment interior
+    setTimeout(() => {
+      if (card3D) card3D.classList.add('card-diving-in');
+    }, 600);
+
+    // 4. Reveal sacred venue threshold & allow scroll navigation
+    setTimeout(() => {
+      document.body.classList.remove('card-closed');
+      if (cardOverlay) cardOverlay.classList.add('opened');
+      const chamber1 = document.getElementById('chamber-1');
+      if (chamber1) {
+        chamber1.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 1250);
+  }
+
+  if (btnOpenCard) btnOpenCard.addEventListener('click', openWeddingCard);
+  if (cardWaxSeal) cardWaxSeal.addEventListener('click', openWeddingCard);
+  if (card3D) {
+    card3D.addEventListener('click', (e) => {
+      // Avoid re-triggering if already opened
+      openWeddingCard();
     });
   }
 });
